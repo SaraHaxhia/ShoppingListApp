@@ -2,8 +2,25 @@
 /* Currently when you add grams and cups etc. it just concats the strings
 Could make a cool version where it sums amounts properly
 TODO: Fix that */ 
+/*
+class NewListItem {
+  constructor(item,quantity,type){
+    this.item=item;
+    this.quantity=quantity;
+    this.type=type; 
+  }
 
-const liveShoppingList = {}; 
+  addToList() {
+    liveShoppingList.push(this);
+
+  }
+}*/
+
+function newListItem(item,quantity,type) {
+  liveShoppingList.push({item, quantity, type});
+}
+
+const liveShoppingList = [{item:Banana, quantity:2, type: Fruits}]; 
 
 
 
@@ -18,6 +35,13 @@ const liveShoppingList = {};
 
 const miscModalBtn = document.querySelector("\#misc-modal-btn");
 
-miscModalBtn.addEventListener("click", event => {
-  
-})
+
+
+//When someone clicks on table row tr, toggle class checked for that element 
+const tableRow = document.querySelectorAll("tbody tr");
+[...tableRow].forEach(el => el.addEventListener("click", event=>{
+  event.currentTarget.classList.toggle("checked");
+}) );
+
+
+

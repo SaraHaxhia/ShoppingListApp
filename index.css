@@ -71,11 +71,30 @@
   display: block;
 }
 
+/* Set default colour for dropdown selection*/ 
 select:invalid,
 select option[value=""] {
   color: #636c72;
 }
 
+/*Make table scroll*/ 
 #table {
   overflow-x:auto;
+}
+
+/*When you hover, text colour stays constant*/
+.table-hover tbody tr.checked:hover td {
+  color: #bbbdbf;
+}
+
+
+/*Checked item styling*/
+tr.checked {
+  background: #e3e6e8;
+  color: #bbbdbf;
+  
+}
+
+tr.checked > td:first-child {
+  text-decoration: line-through;
 }
