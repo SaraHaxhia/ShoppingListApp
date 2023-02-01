@@ -70,3 +70,12 @@
   line-height: 60px;
   display: block;
 }
+
+select:invalid,
+select option[value=""] {
+  color: #636c72;
+}
+
+#table {
+  overflow-x:auto;
+}

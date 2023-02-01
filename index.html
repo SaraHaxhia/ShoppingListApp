@@ -11,10 +11,12 @@
       crossorigin="anonymous"
     />
     
+    
     <title>Ultimate Shopping List</title>
   </head>
 
   <body>
+
     <!--NAV BAR-->
     <header class="site-header sticky-top py-1">
       <nav class="navbar navbar-expand navbar-dark fixed-top bg-dark">
@@ -49,9 +51,10 @@
       </nav>
     </header>
     <!--NAV BAR-->
+
     <main>
+
       <!--TITLE-->
-      <!--TODO: fix format of title-->
       <div
         class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light"
       >
@@ -60,73 +63,168 @@
         </div>
       </div>
       <!--TITLE-->
-      <!--TODO: Make the boxes stay in the center of the page, fixed size-->
-      <!--THE LIST-->
+      
+      
       <div class="d-flex flex-equal w-100 my-3 ps-3 col-7">
+        <!--THE LIST-->
         <div
-          class="bg-dark me-3 pt-3 px-3 pt-5 px-5  text-white overflow-hidden"
+          class="bg-light me-3   text-white overflow-hidden"
         >
-          <!--removed a lot of md mt stuff-->
+        
+          
+          <!--
           <div class="my-3 py-3">
             <ul id="the-shopping-list">
               <li> Bananas</li>
             </ul>
           </div>
+        -->
+        <div id="table" class="container my-3 " >
+                    
+          <table class="table table-hover ">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Banassdafvdafgvfsadfsrna</td>
+                <td>2</td>
+                <td>Fruits</td>
+                
+              </tr>
+              <tr>
+                <td>Apple</td>
+                <td>3</td>
+                <td>Fruits</td>
+                
+              </tr>
+              <tr>
+                <td>Mushrooms</td>
+                <td>200g</td>
+                <td>Veg</td>
+                
+              </tr>
+            </tbody>
+          </table>
+        </div>
         </div>
         <!--THE LIST-->
 
         <!--THE ICONS-->
-        <!--TODO: Consider making icons into actual buttons-->
-        <!--TODO: make this whole box stay fixed when you scroll on the left-->
-
         <div
           class="bg-light me-3 pt-3 px-1 pt-5  text-center overflow-hidden col-3"
         >
           <!--removed a lot of md mt stuff-->
           <div class="my-2 p-2">
-            
-            <div id="recipe-icon">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-file-earmark-plus"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"
-              />
-              <path
-                d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"
-              />
-            </svg>
-          </div>
-          <div id="on-hover-recipe">
-            <p>Add recipe</p></div>
+            <!--ADD RECIPE-->
+            <div id="add-new-recipe">
+              <div id="recipe-icon" data-toggle="modal" data-target="#recipeModal">
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-file-earmark-plus"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"
+                />
+                <path
+                  d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"
+                />
+                </svg>
+              </div>
+              <div id="on-hover-recipe">
+                <p>Add recipe</p></div>
+            </div>
+            <!--Modal-->
+            <div class="modal fade" id="recipeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Recipes</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--ADD RECIPE-->
 
-            <div id="misc-icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-cart-plus"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z"
-            />
-            <path
-              d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
-            />
-          </svg>
-          </div>
-          <div id="on-hover-misc">
-          <p>Add misc.</p> 
-          </div>
-          
+            <!--ADD MISC-->
+            <div id="add-new-misc">
+              <div id="misc-icon" data-toggle="modal" data-target="#miscModal">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-cart-plus"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z"
+                  />
+                  <path
+                    d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+                  />
+                </svg>
+              </div>
+              <div id="on-hover-misc">
+                <p>Add misc.</p> 
+              </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="miscModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add miscellaneous item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                      <div class="row">
+                        <div id="new-item" class="col">
+                          <input type="text" class="form-control" placeholder="Item">
+                        </div>
+                        <div id="new-cat" class="col">
+                          <select required class="form-control" >
+                            <option value="" selected disabled hidden>Type..</option>
+                            <option> Fruits </option>
+                          </select>
+                        </div>
+                        <div id="new-qty" class="col">
+                          <input type="text" class="form-control" placeholder="Quantity">
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="misc-modal-btn" type="button" class="btn btn-light">Add to list</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--ADD MISC-->
           <div id="sort-icon">
+            
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -144,24 +242,6 @@
           <div id="on-hover-sort">
           <p>Sort list</p> 
           </div>
-        
-        <!-- CHECK ALL??
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-check2-all"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z"
-            />
-            <path
-              d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z"
-            />
-          </svg>
-          <p>check all</p> -->
           <div id="delete-checked-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -184,9 +264,12 @@
         </div>
       </div>
       <!--THE ICONS-->
+
+      
     </main>
 
     <!--FOOTER-->
+    <!--
     <footer id="footer" class="text-center text-white">
       
      <div class="container">
@@ -198,13 +281,12 @@
 
       
     </footer>
-    
-<!-- 
+  -->
+
     <script src="./index.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-      crossorigin="anonymous"
-    ></script>-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    
   </body>
 </html>
