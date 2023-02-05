@@ -27,7 +27,7 @@
             <!--TODO: Add a "view recipes" thing where you can see and change current recipes, and delete.. -->
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#" >
+                <a class="nav-link active" aria-current="page" href="#" data-toggle="modal" data-target="#addNewModal">
                   
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -42,17 +42,40 @@
                     />
                   </svg>
                   
-                  Add new 
+                  
                 </a>
               </li>
             </ul>
           </div>
         </div>
       </nav>
+      
+
     </header>
     <!--NAV BAR-->
 
     <main>
+      <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Add new</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="tab">
+                
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!--TITLE-->
       <div
@@ -89,7 +112,7 @@
                 <th>Type</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="table-body">
               
             </tbody>
           </table>
@@ -99,7 +122,7 @@
 
         <!--THE ICONS-->
         <div
-          class="bg-light me-3 pt-3 px-1 pt-5  text-center overflow-hidden col-3"
+          id="icons"class="bg-light me-3 pt-3 px-1 pt-5  text-center overflow-hidden col-3"
         >
           <!--removed a lot of md mt stuff-->
           <div class="my-2 p-2">
@@ -181,10 +204,14 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <form>
+                    <form id="misc-input" autocomplete="off">
                       <div class="row">
-                        <div id="new-item" class="col">
-                          <input id="item-input" type="text" class="form-control" placeholder="Item">
+                        <div id="new-item" class="col autocomplete">
+                          <input id="item-input"  type="text" class="form-control" placeholder="Item">
+                        
+                        <ul id="autocomplete-list" class="hidden">
+                          
+                        </ul>
                         </div>
                         <div id="new-qty" class="col">
                           <input id="qty-input" type="text" class="form-control" placeholder="Quantity">
@@ -198,6 +225,17 @@
                         
                       </div>
                     </form>
+                   <!-- <div class="autocomplete "> add hidden class//
+                      <ul id= "autocomplete-list">
+                        <li class="autocomplete-item">Hello there</li>
+                      </ul>
+                    </div> -->
+                    <!--<p id="success-message"> Successful </p>-->
+                    <div  class="alert alert-success hidden">
+                      <strong>Added successfully!</strong> 
+                    </div>
+                    
+
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -206,6 +244,7 @@
                 </div>
               </div>
             </div>
+            
             <!--ADD MISC-->
           <div id="sort-icon">
             
@@ -248,6 +287,7 @@
         </div>
       </div>
       <!--THE ICONS-->
+      
 
       
     </main>
