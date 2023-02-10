@@ -1,27 +1,16 @@
-/*
-class NewListItem {
-  constructor(item,quantity,type){
-    this.item=item;
-    this.quantity=quantity;
-    this.type=type; 
-  }
-
-  addToList() {
-    liveShoppingList.push(this);
-
-  }
-}*/
-
 
 
 let liveShoppingList = [];
 let shoppingListDatabase = [];
+let recipeDatabase = [{"Name":"Salmon burgers", "Ingredients":{"Salmon":{"quantity":"2 packs", "commonPantry":false}}}];
+
 
 function newListItem(item, quantity, type, checked) {
   //add items to shopping list
   liveShoppingList.push({ item, quantity, type, checked });
   shoppingListDatabase.push({item, type});
 }
+
 
 //TURN LIST INTO HTML ELEMENTS
 const render = () => {
@@ -54,13 +43,17 @@ const render = () => {
 
 //Categories.. in misc
 
-
+let option;
 function inputCategories(categories) {
-  let option;
+  
   categories.forEach((cat) => {
     option = document.createElement("option");
     option.textContent = cat;
     document.querySelector("\#cat-input").appendChild(option);
+    option = document.createElement("option");
+    option.textContent = cat;
+    //NOT WORKING 
+    document.querySelectorAll(".recipe-cat-input").forEach(x => x.appendChild(option));
   });
 }
 
@@ -91,8 +84,15 @@ miscModalBtn.addEventListener("click", (event) => {
 
 });
 
+//Make Misc modal always open empty 
+let miscIcon = document.querySelector("\#misc-icon");
+miscIcon.addEventListener("click", () => {
+  itemInput.value = "";
+  catInput.value = "";
+  qtyInput.value = "";
+})
 
-//Auto-fill type !!!!!!
+//AUTO-FILL CATEGORIES ON MISC 
 
 //start by showing correct matches 
 //then let person select by clicking 
@@ -202,10 +202,121 @@ function sortList(sortedCat) {
 
 sortIcon.addEventListener("click", () => sortList(sortedCat));
 
+//RECIPES TAB TOGGLE
+
+let recipeTab = document.querySelector("\#recipe-tab");
+let newRecipeTab = document.querySelector("\#new-recipe-tab");
+
+let tabTitle = document.querySelectorAll(".tabtitle");
+tabTitle.forEach(tabTitleEl => {
+  tabTitleEl.addEventListener("click", event => {
+    tabTitle.forEach(el => el.classList.remove("tabtitleactive"));
+    event.currentTarget.classList.add("tabtitleactive");
+    if(event.currentTarget.getAttribute("id")=="recipelibrarytitle"){
+      recipeTab.classList.remove("invisible");
+      newRecipeTab.classList.add("invisible");
+    } else if (event.currentTarget.getAttribute("id")=="newrecipetitle"){
+      newRecipeTab.classList.remove("invisible");
+      recipeTab.classList.add("invisible");
+      //erase changes you made before you exited modal/toggled away
+      ingredientsInputList = document.querySelector("\#ingredients-input-list");
+      ingredientsInputList.innerHTML = `<div class="row ingredients-input-row">
+      <div class="recipe-new-ingredient col">
+        <input class="recipe-ingredient-input form-control"  type="text" placeholder="Item">
+      </div>
+      <div class="recipe-new-qnty col">
+        <input class="recipe-qnty-input form-control"  type="text" placeholder="Quantity">
+      </div>
+      <div class="recipe-new-cat col">
+        <select required class="recipe-cat-input form-control" >
+          <option value="" selected disabled hidden>Type..</option>
+          
+        </select>
+      </div>
+      <div class="recipe-common-pantry col">
+        <select class="form-control">
+          <option>-</option>
+          <option> Common pantry item</option>
+        </select>  
+      </div>
+      
+      </div>`;
+    }
+    
+  })
+})
+
+//When you press recipes button, it always opens on recipes page
+let recipesModalIcon=document.querySelector("\#recipes-modal-icon");
+let recipelibraryTitle=document.querySelector("\#recipelibrarytitle");
+recipesModalIcon.addEventListener("click", event => {
+  recipeTab.classList.remove("invisible");
+  newRecipeTab.classList.add("invisible");
+  tabTitle.forEach(el => el.classList.remove("tabtitleactive"));
+  recipelibraryTitle.classList.add("tabtitleactive");
+
+})
+
+//Recipe list 
+
+
+
+//RENDER RECIPE LIST
+let recipe1, recipeList; 
+function renderRecipeList() {
+  recipeList = document.querySelector("\#recipe-list");
+  recipeList.innerHTML = "";
+  recipeDatabase.forEach(recipe => {
+    recipe1 = document.createElement("li");
+    recipe1.textContent = recipe.Name; 
+    recipeList.appendChild(recipe1); 
+    
+  })
+}
+
+//PLUS BUTTON MAKES NEW INGREDIENTS INPUT ROW 
+//If I want to, I could give each input an id... using ${}
+//Need a delete row icon 
+let plusIcon=document.querySelector("\#ingredients-plus-icon");
+let ingredientsInputList=document.querySelector("\#ingredients-input-list");
+plusIcon.addEventListener("click", event=>{
+  ingredientsInputList.insertAdjacentHTML("beforeend", `<br> <div class="row ingredients-input-row">
+  <div class="recipe-new-ingredient col">
+    <input class="recipe-ingredient-input form-control"  type="text" placeholder="Item">
+  </div>
+  <div class="recipe-new-qnty col">
+    <input class="recipe-qnty-input form-control"  type="text" placeholder="Quantity">
+  </div>
+  <div class="recipe-new-cat col">
+    <select required class="recipe-cat-input form-control" >
+      <option value="" selected disabled hidden>Type..</option>
+      
+    </select>
+  </div>
+  <div class="recipe-common-pantry col">
+    <select class="form-control">
+      <option>-</option>
+      <option> Common pantry item</option>
+    </select>  
+  </div>
+  
+  </div>`)
+})
+
+
+
+//RUN CODE.... 
+
+
+// FIX THIS FUNCTION!!! MAKE IT EASY TO ADD INGREDIENTS, QNTY and COMMON PANTRY 
+//MAKE SURE YOU CODE A COMMON PANTRY AUTOFILL... 
+
+renderRecipeList();
 
 //Example
 newListItem("Chicken", "1kg", "Meat", false);
 newListItem("Cheese", "one block", "Dairy", false);
+
 
 
 render();
