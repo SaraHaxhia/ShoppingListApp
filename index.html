@@ -56,7 +56,7 @@
               <div id="recipelibrarytitle" class="tabtitle tabtitleactive">
               <h5  class="modal-title">Recipe Library</h5></div>
               <div id="newrecipetitle" class=" tabtitle">
-              <h5  class="modal-title">New Recipe</h5></div>
+              <h5  class="modal-title">Add/Edit Recipe</h5></div>
               
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -69,36 +69,49 @@
                 </ul>
               </div>
               <div id="new-recipe-tab" class="tabcontent invisible">
-                <form>
+
+
+                <form id="new-recipe-form" >
                   <p> Name </p>
-                  <input type="text" id="recipeName" class="form-control">
+                  
+                  <input type="text" id="recipeName" required class="form-control" >
                   <br><br>
                   <p>Ingredients</p>
                   <div id="ingredients-input-list">
-                  <div class="row ingredients-input-row">
-                  <div class="recipe-new-ingredient col">
-                    <input class="recipe-ingredient-input form-control"  type="text" placeholder="Item">
-                  </div>
-                  <div class="recipe-new-qnty col">
-                    <input class="recipe-qnty-input form-control"  type="text" placeholder="Quantity">
-                  </div>
-                  <div class="recipe-new-cat col">
-                    <select required class="recipe-cat-input form-control" >
-                      <option value="" selected disabled hidden>Type..</option>
+                    
+                    <div class="row ingredients-input-row">
+                      <div class="recipe-new-ingredient col">
+                        
+                        <input class="recipe-ingredient-input form-control"  required type="text" placeholder="Item">
+                        
+                      </div>
+                      <div class="recipe-new-qnty col">
+                        <input class="recipe-qnty-input form-control"  type="text" placeholder="Quantity">
+                      </div>
                       
-                    </select>
-                  </div>
-                  <div class="recipe-common-pantry col">
-                    <select class="form-control">
-                      <option>-</option>
-                      <option> Common pantry item</option>
-                    </select>  
+                      <div id="recipe-new-cat" class="col">
+                        <select id="recipe-cat-input" class="form-control" >
+                          <!--<option value="" selected disabled hidden>Type..</option>-->
+                          <!--Gray colour only works if this option is invalid and select is required-->
+                          <option value="" selected >Type..</option>
+                        </select>
+                      </div>
+                      
+                      
+                      <div class="recipe-common-pantry col">
+                        <select class="form-control">
+                          <option value="" selected> - </option>
+                          <option> Common pantry item</option>
+                        </select>  
+                      </div>
+                      
+                    </div>
+                    
+
                   </div>
                   
-                  </div>
 
-                  </div>
-
+                  
                 </form>
                 <div id="ingredients-plus-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
@@ -106,11 +119,17 @@
                   <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                 </svg>
                 </div>
+                
               </div>
             </div>
+            
+            <div  id="success-add-recipe"class="alert alert-success invisible">
+              <strong>Added successfully!</strong> 
+            </div>
+
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button id="new-recipe-btn" type="submit" form="new-recipe-form" class="btn btn-primary">Save changes</button>
             </div>
           </div>
         </div>
@@ -256,8 +275,8 @@
                           <input id="qty-input" type="text" class="form-control" placeholder="Quantity">
                         </div>
                         <div id="new-cat" class="col">
-                          <select id="cat-input" required class="form-control" >
-                            <option value="" selected disabled hidden>Type..</option>
+                          <select id="cat-input" class="form-control" >
+                            <option value="" selected >Type..</option>
                             
                           </select>
                         </div>
@@ -270,7 +289,7 @@
                       </ul>
                     </div> -->
                     <!--<p id="success-message"> Successful </p>-->
-                    <div  class="alert alert-success hidden">
+                    <div  id="success-add-misc"class="alert alert-success hidden">
                       <strong>Added successfully!</strong> 
                     </div>
                     
@@ -278,7 +297,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button id="misc-modal-btn" type="button" class="btn btn-light">Add to list</button>
+                    <button id="misc-modal-btn" type="submit" form="misc-input" class="btn btn-light">Add to list</button>
                   </div>
                 </div>
               </div>

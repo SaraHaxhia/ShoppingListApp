@@ -2,19 +2,64 @@
 
 let liveShoppingList = [];
 let shoppingListDatabase = [];
-let recipeDatabase = [{"Name":"Salmon burgers", "Ingredients":{"Salmon":{"quantity":"2 packs", "commonPantry":false}}}];
+let recipeDatabase = [{"Name":"Salmon burgers", "Ingredients":[{ "Item": "Salmon", "Quantity":"2 packs", "Type" : "Fish", "CommonPantry":false}]}];
 
+let plusIcon=document.querySelector("\#ingredients-plus-icon");
+let ingredientsInputList=document.querySelector("\#ingredients-input-list");
+let newRow;
 
-function newListItem(item, quantity, type, checked) {
+let option;
+
+let tableRow;
+let objInShoppingList;
+
+let recipeTab = document.querySelector("\#recipe-tab");
+let newRecipeTab = document.querySelector("\#new-recipe-tab");
+
+let tabTitle = document.querySelectorAll(".tabtitle");
+
+let row, item1, quantity1, type1;
+
+const miscModalBtn = document.querySelector("#misc-modal-btn");
+let itemInput, catInput, qtyInput;
+itemInput = document.querySelector("#item-input");
+catInput = document.querySelector("#cat-input");
+qtyInput = document.querySelector("#qty-input");
+
+let miscIcon = document.querySelector("\#misc-icon");
+
+let searchText, newAutocompleteItem; 
+let autocompleteList = document.querySelector("\#autocomplete-list");
+let autocompleteItems; 
+
+const deleteAllIcon = document.querySelector("#delete-all-icon");
+
+const deleteCheckedIcon = document.querySelector("#delete-checked-icon");
+
+const sortIcon = document.querySelector("#sort-icon");
+
+let recipesModalIcon=document.querySelector("\#recipes-modal-icon");
+let recipelibraryTitle=document.querySelector("\#recipelibrarytitle");
+
+let recipe1, recipeList; 
+
+const newRecipeBtn=document.querySelector("\#new-recipe-btn");
+let recipeName, listOfIngredients; 
+let ingredientsInputRow = document.querySelector(".ingredients-input-row");
+let itemRecipeInput, qntyRecipeInput, catRecipeInput, commonpanRecipeInput;  
+
+let successAlert;
+
+function newListItem(item, quantity, type, commonpantry, checked) {
   //add items to shopping list
-  liveShoppingList.push({ item, quantity, type, checked });
+  liveShoppingList.push({ item, quantity, type,commonpantry, checked });
   shoppingListDatabase.push({item, type});
 }
 
 
 //TURN LIST INTO HTML ELEMENTS
 const render = () => {
-  let row, item1, quantity1, type1;
+  
   const tableBody = document.querySelector("\#table-body");
 
   tableBody.innerHTML = ""; //erase current list
@@ -41,35 +86,34 @@ const render = () => {
   enableToggleChecked();
 };
 
-//Categories.. in misc
+//Categories.. in misc and recipe
 
-let option;
-function inputCategories(categories) {
+
+function inputCategories(categories, selector) {
   
   categories.forEach((cat) => {
     option = document.createElement("option");
     option.textContent = cat;
-    document.querySelector("\#cat-input").appendChild(option);
-    option = document.createElement("option");
-    option.textContent = cat;
-    //NOT WORKING 
-    document.querySelectorAll(".recipe-cat-input").forEach(x => x.appendChild(option));
-  });
+    document.querySelector(selector).appendChild(option);
+
+    
+  })
 }
 
 
 
+
+
+
 // MAKE MISC ADD MODAL WORK - TO ADD ELEMENTS TO LIST
-const miscModalBtn = document.querySelector("#misc-modal-btn");
 
-let itemInput, catInput, qtyInput;
-itemInput = document.querySelector("#item-input");
-catInput = document.querySelector("#cat-input");
-qtyInput = document.querySelector("#qty-input");
 
-miscModalBtn.addEventListener("click", (event) => {
+let miscInputForm = document.querySelector("\#misc-input");
+
+miscInputForm.addEventListener("submit", (event) => {
   
-  newListItem(itemInput.value, qtyInput.value, catInput.value, false);
+  event.preventDefault(); 
+  newListItem(itemInput.value, qtyInput.value, catInput.value, false, false);
 
   render();
   
@@ -78,19 +122,22 @@ miscModalBtn.addEventListener("click", (event) => {
   catInput.value = "";
   qtyInput.value = "";
 
-  let successAlert = document.querySelector(".alert-success");
+  successAlert = document.querySelector("\#success-add-misc");
   successAlert.classList.remove("hidden");
   setTimeout(() => successAlert.classList.add("hidden"), 1000);
+  console.log(liveShoppingList);
 
 });
 
 //Make Misc modal always open empty 
-let miscIcon = document.querySelector("\#misc-icon");
+
 miscIcon.addEventListener("click", () => {
   itemInput.value = "";
   catInput.value = "";
   qtyInput.value = "";
 })
+
+
 
 //AUTO-FILL CATEGORIES ON MISC 
 
@@ -99,8 +146,8 @@ miscIcon.addEventListener("click", () => {
 //then let someone select with buttons and enter button (disable normal use)
 
 
-let searchText, newAutocompleteItem; 
-let autocompleteList = document.querySelector("\#autocomplete-list");
+
+
 itemInput.addEventListener("keyup", event => {
   
   autocompleteList.innerHTML ="";
@@ -125,7 +172,7 @@ itemInput.addEventListener("keyup", event => {
   selectAutocomplete();
 })
 
-let autocompleteItems; 
+
 
 function selectAutocomplete() {
   autocompleteItems=document.querySelectorAll(".newAutocompleteItem");
@@ -145,13 +192,12 @@ function selectAutocomplete() {
 
 //TOGGLE CHECKED CLASS
 // in render function because you always want to rerun when you render
-let tableRow;
-let objInShoppingList;
+
 function enableToggleChecked() {
   //When someone clicks on table row tr, toggle class checked for that element
   //Make it a function so it works when html elements are changed, runs query selector again
   tableRow = document.querySelectorAll("tbody tr");
-  console.log(tableRow);
+  
   [...tableRow].forEach((el) =>
     el.addEventListener("click", (event) => {
       event.currentTarget.classList.toggle("checked");
@@ -169,14 +215,14 @@ function enableToggleChecked() {
 
 // DELETE ALL BUTTON
 
-const deleteAllIcon = document.querySelector("#delete-all-icon");
+
 deleteAllIcon.addEventListener("click", (event) => {
   liveShoppingList = [];
   render();
 });
 
 //DELETE CHECKED BUTTON
-const deleteCheckedIcon = document.querySelector("#delete-checked-icon");
+
 deleteCheckedIcon.addEventListener("click", (event) => {
   liveShoppingList = liveShoppingList.filter((obj) => !obj.checked);
 
@@ -184,7 +230,7 @@ deleteCheckedIcon.addEventListener("click", (event) => {
 });
 
 //SORT LIST BUTTON
-const sortIcon = document.querySelector("#sort-icon");
+
 function sortList(sortedCat) {
   //These functions shouldnt change original array but they seem to do that?
   liveShoppingList.map(el => {
@@ -204,10 +250,8 @@ sortIcon.addEventListener("click", () => sortList(sortedCat));
 
 //RECIPES TAB TOGGLE
 
-let recipeTab = document.querySelector("\#recipe-tab");
-let newRecipeTab = document.querySelector("\#new-recipe-tab");
 
-let tabTitle = document.querySelectorAll(".tabtitle");
+
 tabTitle.forEach(tabTitleEl => {
   tabTitleEl.addEventListener("click", event => {
     tabTitle.forEach(el => el.classList.remove("tabtitleactive"));
@@ -218,37 +262,40 @@ tabTitle.forEach(tabTitleEl => {
     } else if (event.currentTarget.getAttribute("id")=="newrecipetitle"){
       newRecipeTab.classList.remove("invisible");
       recipeTab.classList.add("invisible");
-      //erase changes you made before you exited modal/toggled away
-      ingredientsInputList = document.querySelector("\#ingredients-input-list");
-      ingredientsInputList.innerHTML = `<div class="row ingredients-input-row">
-      <div class="recipe-new-ingredient col">
-        <input class="recipe-ingredient-input form-control"  type="text" placeholder="Item">
-      </div>
-      <div class="recipe-new-qnty col">
-        <input class="recipe-qnty-input form-control"  type="text" placeholder="Quantity">
-      </div>
-      <div class="recipe-new-cat col">
-        <select required class="recipe-cat-input form-control" >
-          <option value="" selected disabled hidden>Type..</option>
-          
-        </select>
-      </div>
-      <div class="recipe-common-pantry col">
-        <select class="form-control">
-          <option>-</option>
-          <option> Common pantry item</option>
-        </select>  
-      </div>
       
-      </div>`;
+      //erase changes you made before you exited modal/toggled away
+      eraseNewRecipeList();
     }
     
   })
 })
 
+//Erase changes to add new recipe list
+
+function eraseNewRecipeList() {
+  //remove all child but one - the first row 
+  //and then set the values to ""
+  ingredientsInputRow = document.querySelector(".ingredients-input-row");
+  ingredientsInputList = document.querySelector("\#ingredients-input-list");
+      
+    while(ingredientsInputList.childNodes.length >2){
+      ingredientsInputList.removeChild(ingredientsInputList.lastChild);
+
+    }
+    
+    ingredientsInputRow.children[0].children[0].value = ""; 
+    ingredientsInputRow.children[1].children[0].value = ""; 
+    ingredientsInputRow.children[2].children[0].value = ""; 
+    ingredientsInputRow.children[3].children[0].value = ""; 
+  
+
+
+      recipeName = document.querySelector("\#recipeName");
+      recipeName.value ="";
+}
+
 //When you press recipes button, it always opens on recipes page
-let recipesModalIcon=document.querySelector("\#recipes-modal-icon");
-let recipelibraryTitle=document.querySelector("\#recipelibrarytitle");
+
 recipesModalIcon.addEventListener("click", event => {
   recipeTab.classList.remove("invisible");
   newRecipeTab.classList.add("invisible");
@@ -262,7 +309,7 @@ recipesModalIcon.addEventListener("click", event => {
 
 
 //RENDER RECIPE LIST
-let recipe1, recipeList; 
+
 function renderRecipeList() {
   recipeList = document.querySelector("\#recipe-list");
   recipeList.innerHTML = "";
@@ -277,33 +324,49 @@ function renderRecipeList() {
 //PLUS BUTTON MAKES NEW INGREDIENTS INPUT ROW 
 //If I want to, I could give each input an id... using ${}
 //Need a delete row icon 
-let plusIcon=document.querySelector("\#ingredients-plus-icon");
-let ingredientsInputList=document.querySelector("\#ingredients-input-list");
+
+
 plusIcon.addEventListener("click", event=>{
-  ingredientsInputList.insertAdjacentHTML("beforeend", `<br> <div class="row ingredients-input-row">
-  <div class="recipe-new-ingredient col">
-    <input class="recipe-ingredient-input form-control"  type="text" placeholder="Item">
-  </div>
-  <div class="recipe-new-qnty col">
-    <input class="recipe-qnty-input form-control"  type="text" placeholder="Quantity">
-  </div>
-  <div class="recipe-new-cat col">
-    <select required class="recipe-cat-input form-control" >
-      <option value="" selected disabled hidden>Type..</option>
-      
-    </select>
-  </div>
-  <div class="recipe-common-pantry col">
-    <select class="form-control">
-      <option>-</option>
-      <option> Common pantry item</option>
-    </select>  
-  </div>
+
+  ingredientsInputRow = document.querySelector(".ingredients-input-row");
+  newRow = ingredientsInputRow.cloneNode(true);
+  newRow.children[0].children[0].value = ""; 
+  newRow.children[0].children[0].required = false; 
+  newRow.children[1].children[0].value = ""; 
+  newRow.children[2].children[0].value = ""; 
+  newRow.children[3].children[0].value = ""; 
+  ingredientsInputList.appendChild(newRow);
   
-  </div>`)
 })
 
+//MAKE NEW RECIPE SAVE CHANGES BUTTON WORK - add to recipe database
 
+newRecipeForm = document.querySelector("\#new-recipe-form");
+
+newRecipeForm.addEventListener("submit", event => {
+  ingredientsInputRow = document.querySelectorAll(".ingredients-input-row");
+  recipeName = document.querySelector("\#recipeName").value; 
+  listOfIngredients = []; 
+  
+  ingredientsInputRow.forEach(row => {
+    itemRecipeInput = row.children[0].children[0].value;
+    qntyRecipeInput = row.children[1].children[0].value;
+    catRecipeInput = row.children[2].children[0].value;
+    commonpanRecipeInput = (row.children[3].children[0].value=="Common pantry item");
+    if(!(itemRecipeInput.trim() == "")){
+    listOfIngredients.push({"item": itemRecipeInput, "quantity": qntyRecipeInput, "type":catRecipeInput, "commonpantry": commonpanRecipeInput}); 
+    }
+  })
+
+  recipeDatabase.push({"Name": recipeName, "Ingredients":listOfIngredients});
+  renderRecipeList();
+  eraseNewRecipeList();
+  let successAlertRecipe = document.querySelector("\#success-add-recipe");
+  successAlertRecipe.classList.remove("invisible");
+  setTimeout(() => successAlertRecipe.classList.add("invisible"), 1000);
+  event.preventDefault();
+
+})
 
 //RUN CODE.... 
 
@@ -314,15 +377,22 @@ plusIcon.addEventListener("click", event=>{
 renderRecipeList();
 
 //Example
-newListItem("Chicken", "1kg", "Meat", false);
-newListItem("Cheese", "one block", "Dairy", false);
+newListItem("Chicken", "1kg", "Meat", false, false);
+newListItem("Cheese", "one block", "Dairy", false, false);
+
 
 
 
 render();
 
 //feel free to change sorted list to a different order
-let sortedCat = ["Fruits", "Veg", "Dairy", "Meat", "Frozen"];
-inputCategories(sortedCat);
+let sortedCat = ["Fruits", "Veg", "Dairy", "Meat", "Frozen", ""];
+inputCategories(sortedCat, "\#cat-input");
+//inputCategories(sortedCat,);
+sortedCat.forEach((cat) => {
+  option = document.createElement("option");
+  option.textContent = cat;
+  document.querySelector("\#recipe-cat-input").appendChild(option);
+})
 
 

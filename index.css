@@ -77,6 +77,12 @@ select option[value=""] {
   color: #636c72;
 }
 
+  
+  
+
+select option:first-child{
+  color: green;
+}
 /*Make table scroll*/
 #table {
   overflow-x: auto;
@@ -102,11 +108,19 @@ tr.checked > td:first-child {
   margin-top: 1em;
 }
 
-.alert-success {
+#success-add-misc {
   margin-top: 2em;
   float: right;
   text-align: center;
   width: 45%;
+}
+#success-add-recipe{
+
+  
+  text-align: center;
+  
+  
+  
 }
 .hidden {
   visibility: hidden;
@@ -185,11 +199,12 @@ tr.checked > td:first-child {
 #ingredients-plus-icon {
   float: right;
   margin:5px;
+  
 }
 #ingredients-plus-icon:hover{
   cursor: pointer;
 }
 
-#ingredients-input-row {
-  
+.ingredients-input-row {
+  margin: 5px; 
 }
