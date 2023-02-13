@@ -41,10 +41,10 @@ const sortIcon = document.querySelector("#sort-icon");
 let recipesModalIcon=document.querySelector("\#recipes-modal-icon");
 let recipelibraryTitle=document.querySelector("\#recipelibrarytitle");
 
-let recipe1, recipeList; 
+let recipeNameForList, recipeList; 
 
 const newRecipeBtn=document.querySelector("\#new-recipe-btn");
-let recipeName, listOfIngredients; 
+let recipeListName, listOfIngredients; 
 let ingredientsInputRow = document.querySelector(".ingredients-input-row");
 let itemRecipeInput, qntyRecipeInput, catRecipeInput, commonpanRecipeInput;  
 
@@ -309,16 +309,52 @@ recipesModalIcon.addEventListener("click", event => {
 
 
 //RENDER RECIPE LIST
-
+let newNestedList, ingredientInRecipeList; 
+let qntyStringAdjustment;
 function renderRecipeList() {
+  //erase the current list
   recipeList = document.querySelector("\#recipe-list");
   recipeList.innerHTML = "";
+  //For each recipe in the database
   recipeDatabase.forEach(recipe => {
-    recipe1 = document.createElement("li");
-    recipe1.textContent = recipe.Name; 
-    recipeList.appendChild(recipe1); 
+    //add the name of the recipe to the list
+    recipeListName = document.createElement("li");
+    recipeListName.textContent = recipe.Name; 
+
+    //make a nested list under the name 
+    newNestedList = document.createElement("ul");
+    
+    //for each ingredient, add a list element with the item and qnty 
+    recipe.Ingredients.forEach(ingredientObj => {
+      
+      ingredientInRecipeList = document.createElement("li");
+      //only have comma when you have a qnty 
+      qntyStringAdjustment = ingredientObj.Quantity.trim() =="" ? "" : `, ${ingredientObj.Quantity}`;
+      ingredientInRecipeList.textContent = `${ingredientObj.Item}${(qntyStringAdjustment)}`;
+      newNestedList.appendChild(ingredientInRecipeList);
+    });
+    //add to html
+    newNestedList.classList.add("invisible");
+    recipeListName.appendChild(newNestedList);
+    recipeList.appendChild(recipeListName); 
+    
     
   })
+  canExpandRecipe();
+}
+
+//See ingredients in recipes in recipe library  when you click on recipes
+let recipeListItems
+
+function canExpandRecipe() {
+recipeListItems = document.querySelectorAll("\#recipe-list > li"); 
+console.log("hi")
+recipeListItems.forEach(recipeListItem => {
+console.log("ok");
+  recipeListItem.addEventListener("click", event=> {       
+   event.currentTarget.children[0].classList.toggle("invisible");
+  })
+})
 }
 
 //PLUS BUTTON MAKES NEW INGREDIENTS INPUT ROW 
@@ -354,7 +390,7 @@ newRecipeForm.addEventListener("submit", event => {
     catRecipeInput = row.children[2].children[0].value;
     commonpanRecipeInput = (row.children[3].children[0].value=="Common pantry item");
     if(!(itemRecipeInput.trim() == "")){
-    listOfIngredients.push({"item": itemRecipeInput, "quantity": qntyRecipeInput, "type":catRecipeInput, "commonpantry": commonpanRecipeInput}); 
+    listOfIngredients.push({"Item": itemRecipeInput, "Quantity": qntyRecipeInput, "Type":catRecipeInput, "CommonPantry": commonpanRecipeInput}); 
     }
   })
 

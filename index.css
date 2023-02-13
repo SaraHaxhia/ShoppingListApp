@@ -208,3 +208,9 @@ tr.checked > td:first-child {
 .ingredients-input-row {
   margin: 5px; 
 }
+
+
+#recipe-list>li:hover { 
+  cursor: pointer;
+
+}
