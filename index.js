@@ -417,6 +417,7 @@ newRecipeForm.addEventListener("submit", event => {
   setTimeout(() => successAlertRecipe.classList.add("invisible"), 1000);
   event.preventDefault();
   renderCheckboxRecipes();
+  
 
 })
 
@@ -424,6 +425,7 @@ newRecipeForm.addEventListener("submit", event => {
 let checkboxList, clrecipeInput, clrecipeListName, counter=1, cpCounter=1, clLi, breakEl; 
 //Render recipe in add recipe to list 
 function renderCheckboxRecipes() {
+  
   checkboxList = document.querySelector("\#checkbox-list");
   checkboxList.innerHTML ="";
    
@@ -464,11 +466,15 @@ function renderCheckboxRecipes() {
       cpListItem.classList.add("checkbox");
       let commonPantryInput = document.createElement("input"); 
       commonPantryInput.setAttribute("type","checkbox");
-      commonPantryInput.setAttribute("name", `comPan${cpCounter}`);
+      commonPantryInput.setAttribute("name", `${item.Item}`);
+      cpListItem.classList.add("checkbox-commonpantry-names");
+      cpListItem.classList.add("invisible");
     
       let commonPantryName = document.createElement("label");
-      commonPantryName.setAttribute("for",`comPan${cpCounter}`);
-      commonPantryName.textContent=item.Item;
+      commonPantryName.setAttribute("for",`${item.Item}`);
+      let itemQntyAdjustment = item.Quantity.trim()=="" ? "" : `, ${item.Quantity}`; 
+      commonPantryName.textContent=`${item.Item}${itemQntyAdjustment}`;
+      
       commonPantryName.classList.add("checkbox-name"); 
       
       
@@ -492,7 +498,7 @@ function renderCheckboxRecipes() {
 
   })
 
-  
+  commonpantryChecklist();
 }
   
 
@@ -523,40 +529,76 @@ checkboxRecipesForm.addEventListener("submit", event => {
   checkboxesArr=Array.from(checkboxes);
   
   
-  checkboxesArr = checkboxesArr.filter(checkbox=> checkbox.firstChild.checked==true);
+  
+  checkboxesArrFiltered = checkboxesArr.filter(checkbox=> checkbox.firstChild.checked);
   
   
   
-  checkboxesArr.forEach(box => {
-    box = box.firstChild;
-    recipeDatabaseItem = recipeDatabase.find(obj => obj.Name==box.value);
+  checkboxesArrFiltered.forEach(box => {
+    
+    boxFirst = box.firstChild;
+    //find the object in the database
+    recipeDatabaseItem = recipeDatabase.find(obj => obj.Name==boxFirst.value);
+    
+    //for common pantry elements, basically look at checked children and add those 
+    let commonpantrySelected = box.querySelectorAll(".checkbox-commonpantry-names");
+    commonpantrySelected=Array.from(commonpantrySelected);
+    commonpantrySelected = commonpantrySelected.filter(checkbox=> checkbox.firstChild.checked);
+    
+    commonpantrySelected = commonpantrySelected;
+    
+
+
     
     recipeDatabaseItem.Ingredients.forEach(ingred => {
 
-      //if common pantry ingredient 
-      if(ingred.CommonPantry) {
-        //dont add to new list by default 
-        //check if checklist is clicked
-        //if so, add 
-        console.log(ingred.CommonPantry);
-      } else {
       
+      if(ingred.CommonPantry) {
+        
+        const found = commonpantrySelected.find(el => el.firstChild.name == ingred.Item); 
+        if(found!==undefined){
+          newListItem(ingred.Item, ingred.Quantity, ingred.Type, ingred.CommonPantry, false);
+        
+        
+        }
+        
+        
+      } else { 
+        
+        
+      //add all ingredients in database that aren't in common pantry
       newListItem(ingred.Item, ingred.Quantity, ingred.Type, ingred.CommonPantry, false);
       }
-    })
+    
+  })
+
+    
+
+    
     
   })
   render();
+  
+  checkboxesArrFiltered.forEach(box => {
+    box.firstChild.checked = false; 
+    let subbox = box.querySelector(".checkbox-commonpantry-names");
+    subbox?.classList.toggle("invisible");
+    if(subbox?.firstChild?.checked!==undefined) subbox.firstChild.checked=false;
+    
+    
+  });
+
 })
 
-//Add common pantry checkboxes  
 
-checkboxes=document.querySelectorAll(".checkbox");
+
+//toggle common pantry checkboxes
 
 function commonpantryChecklist(){
+  checkboxes=document.querySelectorAll(".checkbox");
   checkboxes.forEach(box => {
-    box.addEventListener("click", event => {
-      console.log(event.currentTarget); 
+    box.querySelector("input").addEventListener("click", event => {
+      event.currentTarget.parentElement.querySelector(".checkbox-commonpantry-names")?.classList.toggle("invisible"); 
     })
   })
 }

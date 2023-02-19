@@ -232,3 +232,7 @@ tr.checked > td:first-child {
   margin-left:10px;
   
 }
+
+#commonPantryText { 
+  text-align: left;
+}
