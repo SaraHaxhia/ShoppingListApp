@@ -2,7 +2,7 @@
 
 let liveShoppingList = [];
 let shoppingListDatabase = [];
-let recipeDatabase = [{"Name":"Salmon burgers", "Ingredients":[{ "Item": "Salmon", "Quantity":"2 packs", "Type" : "Fish", "CommonPantry":false}]}];
+let recipeDatabase = [{"Name":"Salmon burgers", "Ingredients":[{ "Item": "Salmon", "Quantity":"2 packs", "Type" : "Fish", "CommonPantry":true}]}];
 
 let plusIcon=document.querySelector("\#ingredients-plus-icon");
 let ingredientsInputList=document.querySelector("\#ingredients-input-list");
@@ -50,8 +50,10 @@ let itemRecipeInput, qntyRecipeInput, catRecipeInput, commonpanRecipeInput;
 
 let successAlert;
 
+//add items to shopping list
+
 function newListItem(item, quantity, type, commonpantry, checked) {
-  //add items to shopping list
+  
   liveShoppingList.push({ item, quantity, type,commonpantry, checked });
   shoppingListDatabase.push({item, type});
 }
@@ -125,7 +127,7 @@ miscInputForm.addEventListener("submit", (event) => {
   successAlert = document.querySelector("\#success-add-misc");
   successAlert.classList.remove("hidden");
   setTimeout(() => successAlert.classList.add("hidden"), 1000);
-  console.log(liveShoppingList);
+  
 
 });
 
@@ -333,8 +335,21 @@ function renderRecipeList() {
       ingredientInRecipeList.textContent = `${ingredientObj.Item}${(qntyStringAdjustment)}`;
       newNestedList.appendChild(ingredientInRecipeList);
     });
-    //add to html
+    //make invisible by default
     newNestedList.classList.add("invisible");
+
+    //add icon - when you add this back, make event.currentTarget.children[0].classList.toggle("invisible");
+    // into event.currentTarget.children[1].classList.toggle("invisible");
+    //change 0 to 1
+    /*
+    span = document.createElement("span"); 
+    span.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+  </svg>`; 
+  span.classList.add("trash-icon");
+  recipeListName.appendChild(span);*/
+
+  //add to html
     recipeListName.appendChild(newNestedList);
     recipeList.appendChild(recipeListName); 
     
@@ -348,9 +363,9 @@ let recipeListItems
 
 function canExpandRecipe() {
 recipeListItems = document.querySelectorAll("\#recipe-list > li"); 
-console.log("hi")
+
 recipeListItems.forEach(recipeListItem => {
-console.log("ok");
+
   recipeListItem.addEventListener("click", event=> {       
    event.currentTarget.children[0].classList.toggle("invisible");
   })
@@ -401,9 +416,150 @@ newRecipeForm.addEventListener("submit", event => {
   successAlertRecipe.classList.remove("invisible");
   setTimeout(() => successAlertRecipe.classList.add("invisible"), 1000);
   event.preventDefault();
+  renderCheckboxRecipes();
 
 })
 
+
+let checkboxList, clrecipeInput, clrecipeListName, counter=1, cpCounter=1, clLi, breakEl; 
+//Render recipe in add recipe to list 
+function renderCheckboxRecipes() {
+  checkboxList = document.querySelector("\#checkbox-list");
+  checkboxList.innerHTML ="";
+   
+  //for each recipe, create an li element with input and label
+  recipeDatabase.forEach(recipe => {
+    let recipeCommonPantry = recipe.Ingredients.filter(el => el.CommonPantry==true);
+    
+    
+    clLi = document.createElement("li"); 
+    clrecipeInput = document.createElement("input"); 
+    clrecipeInput.setAttribute("type","checkbox");
+    clrecipeInput.setAttribute("name", `recipe${counter}`);
+    clLi.classList.add("checkbox");
+    clLi.classList.add("checkbox-recipes-names");
+    
+    clrecipeListName = document.createElement("label");
+    clrecipeListName.setAttribute("for",`recipe${counter}`);
+    clrecipeListName.textContent=recipe.Name;
+    clrecipeListName.classList.add("checkbox-name"); 
+
+    clrecipeInput.setAttribute("value", `${recipe.Name}`);
+
+    clLi.appendChild(clrecipeInput);
+    clLi.appendChild(clrecipeListName);
+    
+    
+    
+
+    //if there is common pantry elements
+    //create an indented list 
+    //add each to indented list
+    if (recipeCommonPantry.length !== 0) {
+      let indentedCheckbox=document.createElement("ul");
+    
+    
+    recipeCommonPantry.forEach(item => {
+      let cpListItem = document.createElement("li");
+      cpListItem.classList.add("checkbox");
+      let commonPantryInput = document.createElement("input"); 
+      commonPantryInput.setAttribute("type","checkbox");
+      commonPantryInput.setAttribute("name", `comPan${cpCounter}`);
+    
+      let commonPantryName = document.createElement("label");
+      commonPantryName.setAttribute("for",`comPan${cpCounter}`);
+      commonPantryName.textContent=item.Item;
+      commonPantryName.classList.add("checkbox-name"); 
+      
+      
+
+      cpListItem.appendChild(commonPantryInput);
+      cpListItem.appendChild(commonPantryName);
+      indentedCheckbox.appendChild(cpListItem);
+      cpCounter++;
+      
+
+    })
+    clLi.appendChild(indentedCheckbox);
+    
+  }
+
+  //breakEl=document.createElement("br");
+  //cldiv.appendChild(breakEl);
+  checkboxList.appendChild(clLi);
+  counter++; 
+    
+
+  })
+
+  
+}
+  
+
+
+/* 
+function checkboxCreator(name, checkboxClass, labelFor, ){
+  let checklistInput = document.createElement("input");
+  checklistInput.setAttribute("type","checkbox");
+  checklistInput.setAttribute("name", name);
+  checklistInput.classList.add("checkbox");
+
+
+
+
+}*/
+
+//SELECTING RECIPES ADD TO SHOPPING LIST 
+
+let checkboxRecipesForm = document.querySelector("\#checkbox-recipes");
+
+let checkboxes, checkboxesArr; 
+let recipeDatabaseItem; 
+
+checkboxRecipesForm.addEventListener("submit", event => {
+
+  event.preventDefault(); 
+  checkboxes=document.querySelectorAll(".checkbox-recipes-names");
+  checkboxesArr=Array.from(checkboxes);
+  
+  
+  checkboxesArr = checkboxesArr.filter(checkbox=> checkbox.firstChild.checked==true);
+  
+  
+  
+  checkboxesArr.forEach(box => {
+    box = box.firstChild;
+    recipeDatabaseItem = recipeDatabase.find(obj => obj.Name==box.value);
+    
+    recipeDatabaseItem.Ingredients.forEach(ingred => {
+
+      //if common pantry ingredient 
+      if(ingred.CommonPantry) {
+        //dont add to new list by default 
+        //check if checklist is clicked
+        //if so, add 
+        console.log(ingred.CommonPantry);
+      } else {
+      
+      newListItem(ingred.Item, ingred.Quantity, ingred.Type, ingred.CommonPantry, false);
+      }
+    })
+    
+  })
+  render();
+})
+
+//Add common pantry checkboxes  
+
+checkboxes=document.querySelectorAll(".checkbox");
+
+function commonpantryChecklist(){
+  checkboxes.forEach(box => {
+    box.addEventListener("click", event => {
+      console.log(event.currentTarget); 
+    })
+  })
+}
 //RUN CODE.... 
 
 
@@ -411,6 +567,7 @@ newRecipeForm.addEventListener("submit", event => {
 //MAKE SURE YOU CODE A COMMON PANTRY AUTOFILL... 
 
 renderRecipeList();
+renderCheckboxRecipes();
 
 //Example
 newListItem("Chicken", "1kg", "Meat", false, false);
@@ -422,7 +579,7 @@ newListItem("Cheese", "one block", "Dairy", false, false);
 render();
 
 //feel free to change sorted list to a different order
-let sortedCat = ["Fruits", "Veg", "Dairy", "Meat", "Frozen", ""];
+let sortedCat = ["Fruits", "Veg", "Dairy", "Meat", "Frozen","Fish", ""];
 inputCategories(sortedCat, "\#cat-input");
 //inputCategories(sortedCat,);
 sortedCat.forEach((cat) => {

@@ -166,12 +166,12 @@ tr.checked > td:first-child {
 /*.autocomplete-list li:hover {
   background-color: #gray;
 }*/
-
 /*
 #icons {
   position:sticky;
-}*/
-
+  
+}
+*/
 /* FADE EFFECT 
 .tab-content {
   animation: fadeEffect 1s; Fading effect takes 1 second 
@@ -213,4 +213,22 @@ tr.checked > td:first-child {
 #recipe-list>li:hover { 
   cursor: pointer;
 
+}
+.trash-icon {
+  margin-right: 50px;
+  float:right; 
+  
+}
+
+.checkbox { 
+  /*margin-right:15px;*/
+  text-align: left;
+  top:5px; 
+  list-style:none;
+  
+}
+
+.checkbox-name { 
+  margin-left:10px;
+  
 }
