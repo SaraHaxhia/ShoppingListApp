@@ -581,9 +581,12 @@ checkboxRecipesForm.addEventListener("submit", event => {
   
   checkboxesArrFiltered.forEach(box => {
     box.firstChild.checked = false; 
-    let subbox = box.querySelector(".checkbox-commonpantry-names");
-    subbox?.classList.toggle("invisible");
-    if(subbox?.firstChild?.checked!==undefined) subbox.firstChild.checked=false;
+    let subbox = box.querySelectorAll(".checkbox-commonpantry-names");
+    subbox?.forEach(b => b.classList.toggle("invisible"));
+    subbox?.forEach(b=>{
+      if(b?.firstChild?.checked!==undefined) b.firstChild.checked=false;
+    })
+    
     
     
   });
@@ -598,7 +601,7 @@ function commonpantryChecklist(){
   checkboxes=document.querySelectorAll(".checkbox");
   checkboxes.forEach(box => {
     box.querySelector("input").addEventListener("click", event => {
-      event.currentTarget.parentElement.querySelector(".checkbox-commonpantry-names")?.classList.toggle("invisible"); 
+      event.currentTarget.parentElement.querySelectorAll(".checkbox-commonpantry-names")?.forEach(b => b.classList.toggle("invisible")); 
     })
   })
 }

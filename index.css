@@ -1,3 +1,31 @@
+
+
+:root {
+  --neutral-1: #fefbe9; /* #fefbe9 #f5edc6*/
+
+  --neutral-2: #f6c453; /*#f6c453;*/
+  --neutral-3: #e1eedd; /*#e1eedd #B8D5AF*/
+  --neutral-4: #F08B48; 
+  --neutral-5: #f5edc6; 
+
+  
+  --accent-1: #f0a04b;
+  --accent-2: #ED3163; 
+  
+  --dark-1: #183a1d; 
+  --dark-2: #FEFBE9; /* #717568 #BDADEA */
+
+
+
+  
+}
+
+
+body {
+  background: var(--neutral-3) !important; /* overwriting bootstrap, maybe fix */
+  
+}
+
 .container {
   max-width: 960px;
 }
@@ -31,6 +59,36 @@
   .flex-md-equal > * {
     flex: 1;
   }
+}
+
+@font-face {
+  font-family: titleFont;
+  src: url(/Fonts/RetroSignature.otf)
+
+}
+
+#title-div {
+  background-color: var(--neutral-1);
+}
+
+th {
+  color: var(--dark-1);
+}
+
+#title {
+  font-family: titleFont;
+  color: var(--dark-1);
+  
+}
+
+/* Delete??*/
+.gradient-text {
+  background-color: #f3ec78; /*back up */
+  background-image: linear-gradient(60deg,var(--accent-2), var(--neutral-4) );
+  
+  -webkit-background-clip: text;
+  background-clip:text;
+  color:transparent;
 }
 
 /* my own things */
@@ -95,8 +153,8 @@ select option:first-child{
 
 /*Checked item styling*/
 tr.checked {
-  background: #e3e6e8;
-  color: #bbbdbf;
+  background: #C6D5C1;
+  color: #B9BFB7;
 }
 
 tr.checked > td:first-child {
