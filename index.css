@@ -2,18 +2,22 @@
 
 :root {
   --neutral-1: #fefbe9; /* #fefbe9 #f5edc6*/
-
-  --neutral-2: #f6c453; /*#f6c453;*/
+  --neutral-2: #F9D88B;
+  /*#f6c453;*/
   --neutral-3: #e1eedd; /*#e1eedd #B8D5AF*/
-  --neutral-4: #F08B48; 
-  --neutral-5: #f5edc6; 
+  --neutral-4: #B7D6AE;
+  
+  /*#F08B48; */
+  /*--neutral-5: #f5edc6; */
+
 
   
   --accent-1: #f0a04b;
-  --accent-2: #ED3163; 
+  /*--accent-2: #ED3163; */
   
   --dark-1: #183a1d; 
-  --dark-2: #FEFBE9; /* #717568 #BDADEA */
+
+   /* #717568 #BDADEA */
 
 
 
@@ -84,6 +88,59 @@ th {
   
 }
 
+#recipes-modal-icon {
+  
+  border-bottom-left-radius: 25px;
+  position: absolute; 
+  top:0;
+  right: 0; 
+  color: var(--neutral-3);
+  background-color: var(--dark-1);
+  transition: all 1s;
+  
+}
+
+#recipes-modal-icon:hover { 
+  background-color: transparent;
+  color: black;
+  border-width: 2px;
+  border-color:var(--dark-1);
+  
+  
+
+}
+
+
+/*ICON TOOLTIP - TO DO !!!!! */ 
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+   /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+
+
 /* Delete??
 .gradient-text {
   background-color: #f3ec78; 
@@ -115,7 +172,8 @@ th {
   max-width: 100px;
   margin-left:10px;
   border-top-left-radius: 25px;
-  border-bottom-left-radius: 25px; 
+  border-bottom-left-radius: 25px;
+  color: var(--dark-1) 
 }
 
 
@@ -135,6 +193,37 @@ th {
 #delete-checked-icon,
 #delete-all-icon {
   cursor: pointer;
+  color:var(--dark-1);
+  
+  
+}
+
+@keyframes bounce {
+  0%, 20%, 60%, 100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+
+  40% {
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
+  }
+
+  80% {
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px);
+  }
+}
+
+#recipe-icon:hover,
+#misc-icon:hover,
+#sort-icon:hover,
+#delete-checked-icon:hover,
+#delete-all-icon:hover {
+  animation: bounce 1s;
+  
+  
+  
 }
 
 /*TODO: Figure out nice transition for this */
@@ -148,13 +237,16 @@ th {
 
 /* TODO: Make sure this works for different size screens */
 #footer {
-  background-color: #f1f1f1;
-  position: absolute;
-  bottom: 0;
+  color: var(--neutral-3);
+  background-color: var(--dark-1);
+  
   width: 100%;
   height: 60px;
   line-height: 60px;
+  position: fixed;
+  bottom: 0;
   display: block;
+  
 }
 
 /* Set default colour for dropdown selection*/
@@ -336,4 +428,23 @@ tr.checked > td:first-child {
 
 #commonPantryText { 
   text-align: left;
+}
+
+/* Colours.. important tag to override bootstrap */
+
+.lightgreen {
+  background-color: var(--neutral-3)!important;
+}
+
+.ivory {
+  background-color:var(--neutral-1) !important;
+}
+
+.darkgreen {
+  background-color: var(--dark-1)!important;
+  color: var(--neutral-1)!important;
+}
+
+.orange {
+  background-color: var(--accent-1) !important;
 }
