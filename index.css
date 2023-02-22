@@ -32,7 +32,7 @@ body {
 
 /*
  * Custom translucent site header
- */
+ 
 
 .site-header {
   background-color: rgba(0, 0, 0, 0.85);
@@ -47,10 +47,13 @@ body {
   color: #fff;
   text-decoration: none;
 }
-
+*/
 /*
  * Extra utilities
  */
+
+
+
 
 .flex-equal > * {
   flex: 1;
@@ -81,15 +84,40 @@ th {
   
 }
 
-/* Delete??*/
+/* Delete??
 .gradient-text {
-  background-color: #f3ec78; /*back up */
+  background-color: #f3ec78; 
   background-image: linear-gradient(60deg,var(--accent-2), var(--neutral-4) );
   
   -webkit-background-clip: text;
   background-clip:text;
   color:transparent;
+}*/
+
+.icon-navbar {
+  background-color: var(--accent-1);
+  flex-direction: column;
+  
 }
+.navbar {
+  flex-direction: column;
+}
+.navbar-expand-lg .navbar-nav {
+  flex-direction: column !important;
+}
+
+.icon-navbar {
+  width: 28%;
+  position:sticky ;
+  position: -webkit-sticky ;
+  top: 10vh;
+  float:right;
+  max-width: 100px;
+  margin-left:10px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px; 
+}
+
 
 /* my own things */
 
@@ -144,6 +172,21 @@ select option:first-child{
 /*Make table scroll*/
 #table {
   overflow-x: auto;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right:auto; 
+  
+}
+
+/* center table on bigger screens
+make it not altered because of icons*/
+@media (min-width: 800px) {
+  /*#table {
+    padding-left: 100px;
+  }*/
+  #title-div {
+    padding-right:100px !important;
+  }
 }
 
 /*When you hover, text colour stays constant*/
