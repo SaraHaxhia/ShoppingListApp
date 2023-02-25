@@ -20,10 +20,6 @@
 
     <!--NAV BAR-->
 
-   
-
-
-
     <!--
     <header class="site-header sticky-top py-1">
       <nav class="navbar navbar-expand  fixed-top navbar-light icon-navbar "> 
@@ -92,8 +88,8 @@
       <!-- NEW RECIPE / RECIPE BOOK MODAL -->
       <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="Recipes" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
+          <div class="modal-content lightgreen">
+            <div class="modal-header ">
               <div id="recipelibrarytitle" class="tabtitle tabtitleactive">
               <h5  class="modal-title">Recipe Library</h5></div>
               <div id="newrecipetitle" class=" tabtitle">
@@ -103,7 +99,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body ">
               <!--RECIPE LIBRARY-->
               <div id="recipe-tab" class="tabcontent ">
                 
@@ -125,10 +121,12 @@
                   <div id="ingredients-input-list">
                     
                     <div class="row ingredients-input-row">
-                      <div class="recipe-new-ingredient col">
+                      <div class="recipe-new-ingredient col autocomplete">
                         
                         <input class="recipe-ingredient-input form-control"  required type="text" placeholder="Item">
+                          <ul id="autocomplete-list2" class="hidden">
                         
+                          </ul>
                       </div>
                       <div class="recipe-new-qnty col">
                         <input class="recipe-qnty-input form-control"  type="text" placeholder="Quantity">
@@ -173,8 +171,8 @@
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button id="new-recipe-btn" type="submit" form="new-recipe-form" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn darkgreen" data-dismiss="modal">Close</button>
+              <button id="new-recipe-btn" type="submit" form="new-recipe-form" class="btn lightorange">Save changes</button>
             </div>
           </div>
         </div>
@@ -208,16 +206,17 @@
       
       <!--NAVBAR SIDE -->
       
-        
+        <!--ICONS-->
         <div
-        id="icons"class=" icon-navbar text-center overflow-hidden "
+        id="icons"class=" icon-navbar text-center  "
       > <!-- remove col-3 -->
+      
         
         <div class="my-2 p-2">
           <!--ADD RECIPE-->
           <br>
           <div id="add-new-recipe">
-            <div id="recipe-icon" data-toggle="modal" data-target="#recipeModal">
+            <div id="recipe-icon" data-toggle="modal" data-target="#recipeModal" class="tooltip1" >
               <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -232,7 +231,9 @@
               <path
                 d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"
               />
+
               </svg>
+              <span class="tooltiptext1">Add recipe</span>
             </div>
             <!--
             <div id="on-hover-recipe">
@@ -245,7 +246,7 @@
 
           <!--ADD MISC-->
           <div id="add-new-misc">
-            <div id="misc-icon" data-toggle="modal" data-target="#miscModal">
+            <div id="misc-icon" data-toggle="modal" data-target="#miscModal" class="tooltip1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -261,6 +262,7 @@
                   d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
                 />
               </svg>
+              <span class="tooltiptext1">Add misc.</span>
             </div>
             <!--<div id="on-hover-misc">
               <p>Add misc.</p> 
@@ -271,7 +273,7 @@
           <!--ADD MISC-->
 
           <!--other icons-->
-        <div id="sort-icon">
+        <div id="sort-icon" class="tooltip1">
           
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -286,6 +288,7 @@
             d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"
           />
         </svg>
+        <span class="tooltiptext1">Sort list</span>
         </div>
         <!--
         <div id="on-hover-sort">
@@ -293,11 +296,13 @@
         </div>-->
 
         <br>
-        <div id="delete-checked-icon">
+        <br>
+        <div id="delete-checked-icon" class="tooltip1">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
           <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
           <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
         </svg>
+        <span class="tooltiptext1">Trash checked</span>
         </div>
         <!--
         <div id="on-hover-delete-checked">
@@ -305,12 +310,14 @@
         </div>-->
 
         <br>
-        <div id="delete-all-icon">
+        <br> 
+        <div id="delete-all-icon" class="tooltip1">
           
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square " viewBox="0 0 16 16">
           <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
           <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
         </svg> 
+        <span class="tooltiptext1">Trash all</span>
         </div><!--
         <div id="on-hover-delete-all">
         <p> Delete all</p> 
@@ -357,14 +364,14 @@
 
         <div class="modal fade" id="recipeModal" tabindex="-1" role="dialog" aria-labelledby="recipeModal" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
+            <div class="modal-content lightgreen">
+              <div class="modal-header ">
                 <h5 class="modal-title" >Select recipes to add to shopping list</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body">
+              <div class="modal-body ">
                 
                 <p id="commonPantryText"> <i>Lacking some of your common pantry items for the recipe? <br>Make sure to select them below. </i> </p>
                 <form id="checkbox-recipes">
@@ -373,9 +380,9 @@
                     </ul>
                 </form>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button  type="submit" form="checkbox-recipes" class="btn btn-primary">Add to list</button>
+              <div class="modal-footer ">
+                <button type="button" class="btn darkgreen" data-dismiss="modal">Close</button>
+                <button  type="submit" form="checkbox-recipes" class="btn lightorange">Add to list</button>
               </div>
             </div>
           </div>
@@ -384,14 +391,14 @@
         <!-- Misc Modal -->
         <div class="modal fade" id="miscModal" tabindex="-1" role="dialog" aria-labelledby="miscModal" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header lightgreen">
+            <div class="modal-content lightgreen">
+              <div class="modal-header ">
                 <h5 class="modal-title" >Add miscellaneous item</h5>
-                <button type="button" class="close ivory" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body lightgreen">
+              <div class="modal-body ">
                 <form id="misc-input" autocomplete="off">
                   <div class="row">
                     <div id="new-item" class="col autocomplete">
@@ -425,9 +432,9 @@
                 
 
               </div>
-              <div class="modal-footer lightgreen">
-                <button type="button"  data-dismiss="modal" class="ivory">Close</button>
-                <button id="misc-modal-btn" type="submit" form="misc-input" class="darkgreen">Add to list</button>
+              <div class="modal-footer">
+                <button type="button"  data-dismiss="modal" class="btn darkgreen" >Close</button>
+                <button id="misc-modal-btn" type="submit" form="misc-input" class="btn lightorange">Add to list</button>
               </div>
             </div>
           </div>

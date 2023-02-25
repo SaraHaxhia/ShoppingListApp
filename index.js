@@ -21,10 +21,11 @@ let tabTitle = document.querySelectorAll(".tabtitle");
 let row, item1, quantity1, type1;
 
 const miscModalBtn = document.querySelector("#misc-modal-btn");
-let itemInput, catInput, qtyInput;
-itemInput = document.querySelector("#item-input");
-catInput = document.querySelector("#cat-input");
-qtyInput = document.querySelector("#qty-input");
+
+let itemInput = document.querySelector("#item-input");
+let catInput = document.querySelector("#cat-input");
+let qtyInput = document.querySelector("#qty-input");
+
 
 let miscIcon = document.querySelector("\#misc-icon");
 
@@ -137,6 +138,7 @@ miscIcon.addEventListener("click", () => {
   itemInput.value = "";
   catInput.value = "";
   qtyInput.value = "";
+  autocompleteList.classList.add("hidden");
 })
 
 
@@ -158,14 +160,18 @@ itemInput.addEventListener("keyup", event => {
   searchText=event.target.value.trim().toLowerCase(); 
   //works with event.target, not event.currenttarget, look into... 
   if(!searchText==""){
+    let currentAutocompleteList = [];  //make sure you don't add same value to list twice
   
     shoppingListDatabase.forEach(obj => {
-      if (obj.item.trim().toLowerCase().slice(0,searchText.length)==searchText){
+      let objItemClean = obj.item.trim().toLowerCase();
+      if (objItemClean.slice(0,searchText.length)==searchText && !currentAutocompleteList.includes(objItemClean)){
         newAutocompleteItem= document.createElement("li");
         newAutocompleteItem.classList.add("newAutocompleteItem");
         newAutocompleteItem.textContent=obj.item;
+        currentAutocompleteList.push(objItemClean);
         autocompleteList.appendChild(newAutocompleteItem);
       }
+      
     })
     if(!autocompleteList.innerHTML==""){
       autocompleteList.classList.remove("hidden");
@@ -174,6 +180,46 @@ itemInput.addEventListener("keyup", event => {
   selectAutocomplete();
 })
 
+
+//autocomplete list 2 - in recipes modal 
+let itemInput2 = document.querySelectorAll("recipe-ingredient-input");
+let autocompleteList2 = document.querySelector("\#autocomplete-list2");
+console.log(itemInput2);
+itemInput2.forEach ( itemInput_ => {
+itemInput_.addEventListener("keyup", event => {
+  
+  autocompleteList2.innerHTML ="";
+  autocompleteList2.classList.add("hidden");
+  
+  searchText=event.target.value.trim().toLowerCase(); 
+  //works with event.target, not event.currenttarget, look into... 
+  if(!searchText==""){
+    let currentAutocompleteList = [];  //make sure you don't add same value to list twice
+  
+    shoppingListDatabase.forEach(obj => {
+      let objItemClean = obj.item.trim().toLowerCase();
+      if (objItemClean.slice(0,searchText.length)==searchText && !currentAutocompleteList.includes(objItemClean)){
+        newAutocompleteItem= document.createElement("li");
+        newAutocompleteItem.classList.add("newAutocompleteItem");
+        newAutocompleteItem.textContent=obj.item;
+        currentAutocompleteList.push(objItemClean);
+        autocompleteList2.appendChild(newAutocompleteItem);
+      }
+      
+    })
+    if(!autocompleteList2.innerHTML==""){
+      autocompleteList2.classList.remove("hidden");
+    }
+  }
+  selectAutocomplete();
+})})
+
+
+
+
+//make search box disappear on focus out 
+const newItem = document.querySelector("\#new-item");
+newItem.addEventListener("blur", ()=> autocompleteList.classList.add("hidden"));
 
 
 function selectAutocomplete() {

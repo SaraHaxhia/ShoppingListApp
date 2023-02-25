@@ -2,7 +2,7 @@
 
 :root {
   --neutral-1: #fefbe9; /* #fefbe9 #f5edc6*/
-  --neutral-2: #F9D88B;
+  --neutral-2: #F9D88B; /* DELETE*/ 
   /*#f6c453;*/
   --neutral-3: #e1eedd; /*#e1eedd #B8D5AF*/
   --neutral-4: #B7D6AE;
@@ -13,9 +13,11 @@
 
   
   --accent-1: #f0a04b;
+  --accent-2: #f6c453;
   /*--accent-2: #ED3163; */
   
   --dark-1: #183a1d; 
+  --dark-2: #425845; 
 
    /* #717568 #BDADEA */
 
@@ -113,14 +115,14 @@ th {
 
 /*ICON TOOLTIP - TO DO !!!!! */ 
 
-.tooltip {
+.tooltip1 {
   position: relative;
   display: inline-block;
-   /* If you want dots under the hoverable text */
+  
 }
 
 /* Tooltip text */
-.tooltip .tooltiptext {
+.tooltip1 .tooltiptext1 {
   visibility: hidden;
   width: 120px;
   background-color: black;
@@ -128,18 +130,30 @@ th {
   text-align: center;
   padding: 5px 0;
   border-radius: 6px;
+  
  
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
+  top: -5px;
+  right: 155%;
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover .tooltiptext {
+.tooltip1:hover .tooltiptext1 {
   visibility: visible;
 }
 
-
+.tooltip1 .tooltiptext1::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  left: 100%; /* To the right of the tooltip */
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent black;
+}
 
 /* Delete??
 .gradient-text {
@@ -331,7 +345,7 @@ tr.checked > td:first-child {
 /*autocomplete */
 .autocomplete {
   position: relative;
-  display: inline-block;
+  
 }
 
 #autocomplete-list {
@@ -347,13 +361,35 @@ tr.checked > td:first-child {
   left: 0;
   right: 0;
   padding: 3px;
-  height: 100px;
+  height: 70px;
   overflow: hidden;
   overflow-y: scroll;
+  background-color: white;
   /*cursor: pointer;*/
 }
+
+#autocomplete-list2 {
+  text-align: left;
+  position: absolute;
+  border: 1px solid rgb(197, 192, 192);
+  list-style: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  /*...sketchy solution*/
+  margin-left: 12px;
+  margin-right: 12px;
+  left: 0;
+  right: 0;
+  padding: 3px;
+  height: 70px;
+  overflow: hidden;
+  overflow-y: scroll;
+  background-color: white;
+  /*cursor: pointer;*/
+}
+
 .newAutocompleteItem:hover {
-  background-color: lightgray;
+  background-color: #C6D5C1;
   cursor: pointer;
 }
 /*.autocomplete-list li:hover {
@@ -430,21 +466,30 @@ tr.checked > td:first-child {
   text-align: left;
 }
 
-/* Colours.. important tag to override bootstrap */
+/* Colours.. important tag to override bootstrap (because I was silly and connected my css after the bootstrap, and now its a faff to change)  */
+
 
 .lightgreen {
   background-color: var(--neutral-3)!important;
+  background-image: linear-gradient(60deg,var(--neutral-1), var(--neutral-3) );
 }
 
-.ivory {
-  background-color:var(--neutral-1) !important;
-}
+
+
+
+
 
 .darkgreen {
-  background-color: var(--dark-1)!important;
-  color: var(--neutral-1)!important;
+  background-color: var(--dark-2)!important;
+  color: white!important;
 }
 
-.orange {
-  background-color: var(--accent-1) !important;
+
+
+.lightorange { 
+  
+  background-color: var(--accent-2) !important; 
+  /*background-image: linear-gradient(60deg,var(--neutral-2), var(--accent-1) )*/;
+  
 }
+ 
