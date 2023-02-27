@@ -154,6 +154,7 @@ miscIcon.addEventListener("click", () => {
 
 itemInput.addEventListener("keyup", event => {
   
+  
   autocompleteList.innerHTML ="";
   autocompleteList.classList.add("hidden");
   
@@ -177,12 +178,13 @@ itemInput.addEventListener("keyup", event => {
       autocompleteList.classList.remove("hidden");
     }
   }
+  
   selectAutocomplete();
 })
 
 
 //autocomplete list 2 - in recipes modal 
-let itemInput2 = document.querySelectorAll("recipe-ingredient-input");
+let itemInput2 = document.querySelectorAll(".recipe-ingredient-input");
 let autocompleteList2 = document.querySelector("\#autocomplete-list2");
 console.log(itemInput2);
 itemInput2.forEach ( itemInput_ => {
@@ -200,7 +202,7 @@ itemInput_.addEventListener("keyup", event => {
       let objItemClean = obj.item.trim().toLowerCase();
       if (objItemClean.slice(0,searchText.length)==searchText && !currentAutocompleteList.includes(objItemClean)){
         newAutocompleteItem= document.createElement("li");
-        newAutocompleteItem.classList.add("newAutocompleteItem");
+        newAutocompleteItem.classList.add("newAutocompleteItem2");
         newAutocompleteItem.textContent=obj.item;
         currentAutocompleteList.push(objItemClean);
         autocompleteList2.appendChild(newAutocompleteItem);
@@ -211,28 +213,66 @@ itemInput_.addEventListener("keyup", event => {
       autocompleteList2.classList.remove("hidden");
     }
   }
-  selectAutocomplete();
+  selectAutocomplete2();
 })})
 
 
-
-
-//make search box disappear on focus out 
-const newItem = document.querySelector("\#new-item");
-newItem.addEventListener("blur", ()=> autocompleteList.classList.add("hidden"));
-
-
+//make clicking on item, autocomplete the category/type
 function selectAutocomplete() {
   autocompleteItems=document.querySelectorAll(".newAutocompleteItem");
   autocompleteItems.forEach(li => {
-    li.addEventListener("click", event => {
+    li.addEventListener("mousedown", event => {
+      
       itemInput.value = event.currentTarget.textContent;
       catInput.value = shoppingListDatabase.find(obj=>obj.item==event.currentTarget.textContent).type;
-      autocompleteList.classList.add("hidden");
+      //autocompleteList.classList.add("hidden");
+
+    })
+  })
+  
+}
+
+//for second list 
+
+function selectAutocomplete2() {
+  let autocompleteItems2=document.querySelectorAll(".newAutocompleteItem2");
+  console.log(autocompleteItems2);
+  autocompleteItems2.forEach(li => {
+    li.addEventListener("click", event => {
+      console.log("hi");
+      //ITEM INPUT 2 WRONG !!! 
+      //NEED TO NAVIGATE TO SIBLING OF PARENT, AND MAKE THAT VALUE EQUAL
+      itemInput2.value = event.currentTarget.textContent;
+      catInput.value = shoppingListDatabase.find(obj=>obj.item==event.currentTarget.textContent).type;
+      autocompleteList2.classList.add("hidden");
 
     })
   })
 }
+
+
+//make search box disappear on focus out 
+
+itemInput = document.querySelector("\#item-input");
+autocompleteList = document.querySelector("\#autocomplete-list");
+const newItem = document.querySelector("\#new-item");
+
+ 
+newItem.addEventListener("focusout", event=> {
+  
+  
+  autocompleteList.classList.add("hidden");
+  
+});/*
+
+//for second list 
+const recipeNewIngredient = document.querySelectorAll(".recipe-new-ingredient");
+recipeNewIngredient.forEach(itemInput_ => {
+  itemInput_.addEventListener("blur", ()=> autocompleteList2.classList.add("hidden"));
+  });*/
+
+
+
 
 
 

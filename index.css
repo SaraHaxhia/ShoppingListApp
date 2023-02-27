@@ -387,6 +387,10 @@ tr.checked > td:first-child {
   background-color: white;
   /*cursor: pointer;*/
 }
+.newAutocompleteItem2:hover {
+  background-color: #C6D5C1;
+  cursor: pointer;
+}
 
 .newAutocompleteItem:hover {
   background-color: #C6D5C1;
