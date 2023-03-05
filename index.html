@@ -102,6 +102,7 @@
             <div class="modal-body ">
               <!--RECIPE LIBRARY-->
               <div id="recipe-tab" class="tabcontent ">
+                <p> <i>Click on recipes to see their ingredients. </i> </p>
                 
                 <ul id="recipe-list"> 
                   
@@ -137,7 +138,8 @@
                         <select id="recipe-cat-input" class="recipe-cat-input form-control" >
                           <!--<option value="" selected disabled hidden>Type..</option>-->
                           <!--Gray colour only works if this option is invalid and select is required-->
-                          <option value="" selected >Type..</option>
+                          <option value="" disabled selected >Type..</option>
+                          <option value="">No type</option>
                         </select>
                       </div>
                       
@@ -172,7 +174,7 @@
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn darkgreen" data-dismiss="modal">Close</button>
+              <button id="new-recipe-close" type="button" class="btn darkgreen" data-dismiss="modal">Close</button>
               <button id="new-recipe-btn" type="submit" form="new-recipe-form" class="btn lightorange">Save changes</button>
             </div>
           </div>
@@ -415,7 +417,8 @@
                     </div>
                     <div id="new-cat" class="col">
                       <select id="cat-input" class="form-control" >
-                        <option value="" selected >Type..</option>
+                        <option value="" disabled selected >Type..</option>
+                        <option value="">No type</option>
                         
                       </select>
                     </div>

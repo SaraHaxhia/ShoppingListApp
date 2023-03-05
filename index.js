@@ -363,17 +363,23 @@ sortIcon.addEventListener("click", () => sortList(sortedCat));
 //RECIPES TAB TOGGLE
 
 
-
+const newRecipeClose = document.querySelector("\#new-recipe-close");
 tabTitle.forEach(tabTitleEl => {
   tabTitleEl.addEventListener("click", event => {
     tabTitle.forEach(el => el.classList.remove("tabtitleactive"));
     event.currentTarget.classList.add("tabtitleactive");
+    //newRecipeBtn = document.querySelector("\#new-recipe-btn");
     if(event.currentTarget.getAttribute("id")=="recipelibrarytitle"){
       recipeTab.classList.remove("invisible");
       newRecipeTab.classList.add("invisible");
+      
+      newRecipeBtn.classList.add("invisible");
+      newRecipeClose.classList.add("invisible");
     } else if (event.currentTarget.getAttribute("id")=="newrecipetitle"){
       newRecipeTab.classList.remove("invisible");
       recipeTab.classList.add("invisible");
+      newRecipeBtn.classList.remove("invisible");
+      newRecipeClose.classList.remove("invisible");
       
       //erase changes you made before you exited modal/toggled away
       eraseNewRecipeList();
@@ -411,6 +417,8 @@ function eraseNewRecipeList() {
 recipesModalIcon.addEventListener("click", event => {
   recipeTab.classList.remove("invisible");
   newRecipeTab.classList.add("invisible");
+  newRecipeBtn.classList.add("invisible");
+  newRecipeClose.classList.add("invisible");
   tabTitle.forEach(el => el.classList.remove("tabtitleactive"));
   recipelibraryTitle.classList.add("tabtitleactive");
 
