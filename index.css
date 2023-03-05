@@ -368,7 +368,7 @@ tr.checked > td:first-child {
   /*cursor: pointer;*/
 }
 
-#autocomplete-list2 {
+.autocomplete-list2 {
   text-align: left;
   position: absolute;
   border: 1px solid rgb(197, 192, 192);

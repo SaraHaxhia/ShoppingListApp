@@ -52,11 +52,21 @@ let itemRecipeInput, qntyRecipeInput, catRecipeInput, commonpanRecipeInput;
 let successAlert;
 
 //add items to shopping list
-
 function newListItem(item, quantity, type, commonpantry, checked) {
   
   liveShoppingList.push({ item, quantity, type,commonpantry, checked });
-  shoppingListDatabase.push({item, type});
+  addToShoppingListDatabase(item, type, commonpantry);
+  
+}
+
+function addToShoppingListDatabase(item, type, commonpantry){
+  let itemFoundInShoppingListDatabase = shoppingListDatabase.find(el => el.item == item.trim().toLowerCase());
+  if( itemFoundInShoppingListDatabase== undefined) {
+    shoppingListDatabase.push({item:item.trim().toLowerCase(), type, commonpantry});
+  } else {
+    //update elements in case category or commonpantry has changed
+   shoppingListDatabase = shoppingListDatabase.map( el => el == itemFoundInShoppingListDatabase ? {item:item.trim().toLowerCase(), type, commonpantry} : el); 
+  } 
 }
 
 
@@ -95,10 +105,11 @@ const render = () => {
 function inputCategories(categories, selector) {
   
   categories.forEach((cat) => {
-    option = document.createElement("option");
-    option.textContent = cat;
-    document.querySelector(selector).appendChild(option);
-
+    if (!cat == "") {
+      option = document.createElement("option");
+      option.textContent = cat;
+      document.querySelector(selector).appendChild(option);
+    }
     
   })
 }
@@ -161,15 +172,15 @@ itemInput.addEventListener("keyup", event => {
   searchText=event.target.value.trim().toLowerCase(); 
   //works with event.target, not event.currenttarget, look into... 
   if(!searchText==""){
-    let currentAutocompleteList = [];  //make sure you don't add same value to list twice
+    //let currentAutocompleteList = [];  //make sure you don't add same value to list twice
   
     shoppingListDatabase.forEach(obj => {
       let objItemClean = obj.item.trim().toLowerCase();
-      if (objItemClean.slice(0,searchText.length)==searchText && !currentAutocompleteList.includes(objItemClean)){
+      if (objItemClean.slice(0,searchText.length)==searchText ){ //&& !currentAutocompleteList.includes(objItemClean)
         newAutocompleteItem= document.createElement("li");
         newAutocompleteItem.classList.add("newAutocompleteItem");
         newAutocompleteItem.textContent=obj.item;
-        currentAutocompleteList.push(objItemClean);
+        //currentAutocompleteList.push(objItemClean);
         autocompleteList.appendChild(newAutocompleteItem);
       }
       
@@ -183,28 +194,30 @@ itemInput.addEventListener("keyup", event => {
 })
 
 
-//autocomplete list 2 - in recipes modal 
+//autocomplete list 2 - in recipes modal - 
+function autocomplete2() {
 let itemInput2 = document.querySelectorAll(".recipe-ingredient-input");
-let autocompleteList2 = document.querySelector("\#autocomplete-list2");
-console.log(itemInput2);
+
+
 itemInput2.forEach ( itemInput_ => {
 itemInput_.addEventListener("keyup", event => {
+  let autocompleteList2 = event.currentTarget.parentNode.querySelector(".autocomplete-list2");
   
   autocompleteList2.innerHTML ="";
   autocompleteList2.classList.add("hidden");
   
   searchText=event.target.value.trim().toLowerCase(); 
-  //works with event.target, not event.currenttarget, look into... 
+  //event.target, not event.currenttarget
   if(!searchText==""){
-    let currentAutocompleteList = [];  //make sure you don't add same value to list twice
+    //let currentAutocompleteList = [];  //make sure you don't add same value to list twice
   
     shoppingListDatabase.forEach(obj => {
       let objItemClean = obj.item.trim().toLowerCase();
-      if (objItemClean.slice(0,searchText.length)==searchText && !currentAutocompleteList.includes(objItemClean)){
+      if (objItemClean.slice(0,searchText.length)==searchText ){ //&& !currentAutocompleteList.includes(objItemClean
         newAutocompleteItem= document.createElement("li");
         newAutocompleteItem.classList.add("newAutocompleteItem2");
         newAutocompleteItem.textContent=obj.item;
-        currentAutocompleteList.push(objItemClean);
+        //currentAutocompleteList.push(objItemClean);
         autocompleteList2.appendChild(newAutocompleteItem);
       }
       
@@ -215,7 +228,16 @@ itemInput_.addEventListener("keyup", event => {
   }
   selectAutocomplete2();
 })})
+const recipeNewIngredient = document.querySelectorAll(".recipe-new-ingredient");
+recipeNewIngredient.forEach(itemInput_ => {
+  itemInput_.addEventListener("focusout", event => {
+    let autocompleteList2 = event.currentTarget.parentNode.querySelector(".autocomplete-list2");
+    autocompleteList2.classList.add("hidden");
+  });
+  });
+}
 
+autocomplete2(); 
 
 //make clicking on item, autocomplete the category/type
 function selectAutocomplete() {
@@ -225,7 +247,7 @@ function selectAutocomplete() {
       
       itemInput.value = event.currentTarget.textContent;
       catInput.value = shoppingListDatabase.find(obj=>obj.item==event.currentTarget.textContent).type;
-      //autocompleteList.classList.add("hidden");
+      
 
     })
   })
@@ -236,16 +258,22 @@ function selectAutocomplete() {
 
 function selectAutocomplete2() {
   let autocompleteItems2=document.querySelectorAll(".newAutocompleteItem2");
-  console.log(autocompleteItems2);
+  
   autocompleteItems2.forEach(li => {
-    li.addEventListener("click", event => {
-      console.log("hi");
-      //ITEM INPUT 2 WRONG !!! 
-      //NEED TO NAVIGATE TO SIBLING OF PARENT, AND MAKE THAT VALUE EQUAL
-      itemInput2.value = event.currentTarget.textContent;
-      catInput.value = shoppingListDatabase.find(obj=>obj.item==event.currentTarget.textContent).type;
-      autocompleteList2.classList.add("hidden");
+    li.addEventListener("mousedown", event => {
+      
+      
+      
+      event.currentTarget.parentNode.parentNode.querySelector("input").value = event.currentTarget.textContent;
+      event.currentTarget.parentNode.parentNode.parentNode.querySelector(".recipe-cat-input").value = shoppingListDatabase.find(obj=>obj.item==event.currentTarget.textContent).type;
+      if(shoppingListDatabase.find(obj=>obj.item==event.currentTarget.textContent).commonpantry) {
+        event.currentTarget.parentNode.parentNode.parentNode.querySelector(".recipe-common-pantry-select").value ="Common pantry item"; 
+      }
 
+      
+      
+      
+      //MAKE COMMON PANTRY VALUE EQUAL TO WHAT IS IT IN DATABASE
     })
   })
 }
@@ -263,13 +291,9 @@ newItem.addEventListener("focusout", event=> {
   
   autocompleteList.classList.add("hidden");
   
-});/*
+});
 
-//for second list 
-const recipeNewIngredient = document.querySelectorAll(".recipe-new-ingredient");
-recipeNewIngredient.forEach(itemInput_ => {
-  itemInput_.addEventListener("blur", ()=> autocompleteList2.classList.add("hidden"));
-  });*/
+//for second list look in function autocomplete2
 
 
 
@@ -473,6 +497,7 @@ plusIcon.addEventListener("click", event=>{
   newRow.children[2].children[0].value = ""; 
   newRow.children[3].children[0].value = ""; 
   ingredientsInputList.appendChild(newRow);
+  autocomplete2(); 
   
 })
 
@@ -492,6 +517,7 @@ newRecipeForm.addEventListener("submit", event => {
     commonpanRecipeInput = (row.children[3].children[0].value=="Common pantry item");
     if(!(itemRecipeInput.trim() == "")){
     listOfIngredients.push({"Item": itemRecipeInput, "Quantity": qntyRecipeInput, "Type":catRecipeInput, "CommonPantry": commonpanRecipeInput}); 
+    addToShoppingListDatabase(itemRecipeInput, catRecipeInput, commonpanRecipeInput);
     }
   })
 
@@ -499,8 +525,8 @@ newRecipeForm.addEventListener("submit", event => {
   renderRecipeList();
   eraseNewRecipeList();
   let successAlertRecipe = document.querySelector("\#success-add-recipe");
-  successAlertRecipe.classList.remove("invisible");
-  setTimeout(() => successAlertRecipe.classList.add("invisible"), 1000);
+  successAlertRecipe.classList.remove("hidden");
+  setTimeout(() => successAlertRecipe.classList.add("hidden"), 1000);
   event.preventDefault();
   renderCheckboxRecipes();
   
@@ -703,6 +729,7 @@ renderCheckboxRecipes();
 //Example
 newListItem("Chicken", "1kg", "Meat", false, false);
 newListItem("Cheese", "one block", "Dairy", false, false);
+newListItem("Chocolate", "one bar", "Dessert", true, false);
 
 
 
@@ -710,13 +737,10 @@ newListItem("Cheese", "one block", "Dairy", false, false);
 render();
 
 //feel free to change sorted list to a different order
-let sortedCat = ["Fruits", "Veg", "Dairy", "Meat", "Frozen","Fish", ""];
+let sortedCat = ["Fruits", "Veg", "Dairy", "Meat", "Frozen","Fish", "Dessert",""];
 inputCategories(sortedCat, "\#cat-input");
 //inputCategories(sortedCat,);
-sortedCat.forEach((cat) => {
-  option = document.createElement("option");
-  option.textContent = cat;
-  document.querySelector("\#recipe-cat-input").appendChild(option);
-})
+
+inputCategories(sortedCat, "\#recipe-cat-input");
 
 
