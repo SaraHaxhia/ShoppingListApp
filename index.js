@@ -347,12 +347,17 @@ function sortList(sortedCat) {
   //These functions shouldnt change original array but they seem to do that?
   liveShoppingList.map(el => {
     el.type = sortedCat.indexOf(el.type);
-    return el; 
+    
+    el.checked = el.checked ? 1 : 0; //put checked items at the bottom
+    
   })
 
   liveShoppingList.sort((a,b)=>a.type-b.type);
+  liveShoppingList.sort((a,b) => a.checked - b.checked);
   liveShoppingList.map(el => {
     el.type = sortedCat[el.type];
+    el.checked = el.checked ==1 ? true : false; 
+    
   })
   
   render();
@@ -710,7 +715,9 @@ checkboxRecipesForm.addEventListener("submit", event => {
     
     
   });
-
+  let successAlertRecipeCheckbox = document.querySelector("\#success-add-checkbox-recipe");
+  successAlertRecipeCheckbox.classList.remove("hidden");
+  setTimeout(() => successAlertRecipeCheckbox.classList.add("hidden"), 1400);
 })
 
 

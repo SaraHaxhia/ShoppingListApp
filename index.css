@@ -309,7 +309,11 @@ tr.checked {
 tr.checked > td:first-child {
   text-decoration: line-through;
 }
-
+#success-add-misc {
+  width: 59%;
+  
+}
+/*
 #success-message {
   text-align: right;
   margin-top: 1em;
@@ -317,18 +321,17 @@ tr.checked > td:first-child {
 
 #success-add-misc {
   margin-top: 2em;
-  float: right;
+  float: left; 
   text-align: center;
   width: 45%;
-}
+}*/
 #success-add-recipe{
-
-  
-  text-align: center;
-  
-  
-  
+  width:54%;
 }
+#success-add-checkbox-recipe {
+  width:59%
+}
+
 .hidden {
   visibility: hidden;
 }
@@ -340,6 +343,7 @@ tr.checked > td:first-child {
   margin-top: 2em;
   margin-right: 1em;
   margin-left: 1em;
+  margin-bottom: 2em;
 }
 
 /*autocomplete */
