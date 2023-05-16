@@ -2,7 +2,7 @@
 
 let liveShoppingList = [];
 let shoppingListDatabase = [];
-let recipeDatabase = [{"Name":"Salmon burgers", "Ingredients":[{ "Item": "Salmon", "Quantity":"2 packs", "Type" : "Fish", "CommonPantry":true}]}];
+let recipeDatabase = [{"Name":"Salmon burgers", "Ingredients":[{ "Item": "Salmon", "Quantity":"2 packs", "Type" : "Fish", "CommonPantry":false},{ "Item": "Avocado", "Quantity":"3", "Type" : "Fruits", "CommonPantry":false}, { "Item": "Onion", "Quantity":"1 bag", "Type" : "Veg", "CommonPantry":true} ]}];
 
 let plusIcon=document.querySelector("\#ingredients-plus-icon");
 let ingredientsInputList=document.querySelector("\#ingredients-input-list");
@@ -162,7 +162,7 @@ miscIcon.addEventListener("click", () => {
 
 
 
-
+let objItemClean;
 itemInput.addEventListener("keyup", event => {
   
   
@@ -175,7 +175,7 @@ itemInput.addEventListener("keyup", event => {
     //let currentAutocompleteList = [];  //make sure you don't add same value to list twice
   
     shoppingListDatabase.forEach(obj => {
-      let objItemClean = obj.item.trim().toLowerCase();
+      objItemClean = obj.item.trim().toLowerCase();
       if (objItemClean.slice(0,searchText.length)==searchText ){ //&& !currentAutocompleteList.includes(objItemClean)
         newAutocompleteItem= document.createElement("li");
         newAutocompleteItem.classList.add("newAutocompleteItem");
@@ -377,7 +377,7 @@ tabTitle.forEach(tabTitleEl => {
     if(event.currentTarget.getAttribute("id")=="recipelibrarytitle"){
       recipeTab.classList.remove("invisible");
       newRecipeTab.classList.add("invisible");
-      
+      newRecipeDelete.classList.add("invisible");
       newRecipeBtn.classList.add("invisible");
       newRecipeClose.classList.add("invisible");
     } else if (event.currentTarget.getAttribute("id")=="newrecipetitle"){
@@ -385,6 +385,7 @@ tabTitle.forEach(tabTitleEl => {
       recipeTab.classList.add("invisible");
       newRecipeBtn.classList.remove("invisible");
       newRecipeClose.classList.remove("invisible");
+      newRecipeDelete.classList.remove("invisible");
       
       //erase changes you made before you exited modal/toggled away
       eraseNewRecipeList();
@@ -415,15 +416,18 @@ function eraseNewRecipeList() {
 
       recipeName = document.querySelector("\#recipeName");
       recipeName.value ="";
+
+      recipeAutocompleteList.classList.add("hidden");
 }
 
 //When you press recipes button, it always opens on recipes page
-
+let newRecipeDelete = document.querySelector("\#new-recipe-delete");
 recipesModalIcon.addEventListener("click", event => {
   recipeTab.classList.remove("invisible");
   newRecipeTab.classList.add("invisible");
   newRecipeBtn.classList.add("invisible");
   newRecipeClose.classList.add("invisible");
+  newRecipeDelete.classList.add("invisible");
   tabTitle.forEach(el => el.classList.remove("tabtitleactive"));
   recipelibraryTitle.classList.add("tabtitleactive");
 
@@ -499,9 +503,7 @@ recipeListItems.forEach(recipeListItem => {
 //If I want to, I could give each input an id... using ${}
 //Need a delete row icon 
 
-
-plusIcon.addEventListener("click", event=>{
-
+function createNewRow() {
   ingredientsInputRow = document.querySelector(".ingredients-input-row");
   newRow = ingredientsInputRow.cloneNode(true);
   newRow.children[0].children[0].value = ""; 
@@ -511,23 +513,147 @@ plusIcon.addEventListener("click", event=>{
   newRow.children[3].children[0].value = ""; 
   ingredientsInputList.appendChild(newRow);
   autocomplete2(); 
+}
+
+plusIcon.addEventListener("click", event=>{
+
+  createNewRow();
   
 })
 
+//RECIPE NAME AUTOCOMPLETE SO YOU CAN EDIT RECIPES
+
+let recipeNameBox = document.querySelector("\#recipeName");
+let recipeAutocompleteList = document.querySelector("\#recipe-autocomplete-list");
+let newRecipeAutocompleteItem; 
+recipeNameBox.addEventListener("keyup", event => {
+  //Not too sure why I'm doing this right now.. 
+  recipeAutocompleteList.innerHTML="";
+  recipeAutocompleteList.classList.add("hidden"); 
+  
+  //Do our search
+  searchText=event.target.value.trim().toLowerCase(); 
+  if(!searchText==""){
+    recipeDatabase.forEach(obj => {
+      objItemClean = obj.Name.trim().toLowerCase();
+      if (objItemClean.slice(0,searchText.length)==searchText ){
+        newRecipeAutocompleteItem = document.createElement("li"); 
+        newRecipeAutocompleteItem.classList.add("newRecipeAutocompleteItem");
+        newRecipeAutocompleteItem.textContent=obj.Name;
+        recipeAutocompleteList.appendChild(newRecipeAutocompleteItem);
+      }
+      
+    })
+    if(!recipeAutocompleteList.innerHTML==""){
+      recipeAutocompleteList.classList.remove("hidden");
+      
+    }
+  }
+  selectRecipeAutocomplete(); 
+// Need it to clear if you go back 
+//Need to fix formatting of the box.. 
+})
+
+function selectRecipeAutocomplete() {
+  let recipeAutocompleteItems = document.querySelectorAll(".newRecipeAutocompleteItem");
+  recipeAutocompleteItems.forEach(li => {
+    li.addEventListener("mousedown", event => {
+      eraseNewRecipeList();
+      ingredientsInputList = document.querySelector("\#ingredients-input-list");
+      let thisRecipe = recipeDatabase.find(obj=>obj.Name===event.currentTarget.textContent);
+      let thisRecipeIngredientsList = thisRecipe.Ingredients;
+      
+      let recipeName = document.querySelector("\#recipeName");
+      recipeName.value = thisRecipe.Name;
+
+      
+
+      //Handling initial row
+      ingredientsInputList.querySelector(".recipe-ingredient-input").value = thisRecipeIngredientsList[0].Item;
+      ingredientsInputList.querySelector(".recipe-qnty-input").value = thisRecipeIngredientsList[0].Quantity;
+      ingredientsInputList.querySelector(".recipe-cat-input").value = thisRecipeIngredientsList[0].Type;
+      ingredientsInputList.querySelector(".recipe-common-pantry-select").value = thisRecipeIngredientsList[0].CommonPantry ? "Common pantry item" : "-";
+
+      for(let i =1; i<thisRecipeIngredientsList.length; i++){
+        //press plus and then add this stuff to the last child.. 
+        createNewRow();
+        
+        ingredientsInputList.lastChild.querySelector(".recipe-ingredient-input").value = thisRecipeIngredientsList[i].Item;
+        ingredientsInputList.lastChild.querySelector(".recipe-qnty-input").value = thisRecipeIngredientsList[i].Quantity;
+        ingredientsInputList.lastChild.querySelector(".recipe-cat-input").value = thisRecipeIngredientsList[i].Type;
+        ingredientsInputList.lastChild.querySelector(".recipe-common-pantry-select").value = thisRecipeIngredientsList[i].CommonPantry ? "Common pantry item" : "-";
+        
+
+        //console.log(ingredientsInputList.lastChild.querySelector(".recipe-ingredient-input").value);
+      }
+      
+      
+    })
+  })
+}
+
+
 //MAKE NEW RECIPE SAVE CHANGES BUTTON WORK - add to recipe database
+
+let deleteRecipeBtn = document.querySelector("\#new-recipe-delete");
+deleteRecipeBtn.addEventListener("click", event => {
+  event.preventDefault();
+  recipeName = document.querySelector("\#recipeName").value; 
+  if(recipeDatabase.find(el => el.Name.trim().toLowerCase() ==recipeName.trim().toLowerCase())!==undefined){
+    const deleteData = confirm(`Warning: you are about to delete ${recipeName} from your list of recipes. This cannot be undone.`);
+    if (deleteData) {
+      let prevItem = recipeDatabase.find(el => el.Name.trim().toLowerCase() ==recipeName.trim().toLowerCase()); 
+      recipeDatabase.splice(recipeDatabase.indexOf(prevItem), 1);
+      renderRecipeList();
+      eraseNewRecipeList();
+      renderCheckboxRecipes();
+    } else {
+      return;
+    }
+  } else {
+    alert("You need to type the name of a recipe you have to delete it.");
+  }
+
+} 
+
+)
 
 newRecipeForm = document.querySelector("\#new-recipe-form");
 
 newRecipeForm.addEventListener("submit", event => {
+
+  
+  event.preventDefault();
+  
+
   ingredientsInputRow = document.querySelectorAll(".ingredients-input-row");
   recipeName = document.querySelector("\#recipeName").value; 
   listOfIngredients = []; 
+
+
+  //console.log(recipeDatabase);
+  if(recipeDatabase.find(el => el.Name.trim().toLowerCase() ==recipeName.trim().toLowerCase())!==undefined){
+    
+    const overwriteData = confirm("Warning: You are about to overwrite this recipe. This cannot be undone.");
+    
+    if (overwriteData) {
+      let prevItem = recipeDatabase.find(el => el.Name.trim().toLowerCase() ==recipeName.trim().toLowerCase()); 
+      recipeDatabase.splice(recipeDatabase.indexOf(prevItem), 1);
+    } else {
+      return;
+    }
+    
+  } 
+
+
+  
   
   ingredientsInputRow.forEach(row => {
     itemRecipeInput = row.children[0].children[0].value;
     qntyRecipeInput = row.children[1].children[0].value;
     catRecipeInput = row.children[2].children[0].value;
     commonpanRecipeInput = (row.children[3].children[0].value=="Common pantry item");
+    console.log(commonpanRecipeInput);
     if(!(itemRecipeInput.trim() == "")){
     listOfIngredients.push({"Item": itemRecipeInput, "Quantity": qntyRecipeInput, "Type":catRecipeInput, "CommonPantry": commonpanRecipeInput}); 
     addToShoppingListDatabase(itemRecipeInput, catRecipeInput, commonpanRecipeInput);
@@ -540,12 +666,15 @@ newRecipeForm.addEventListener("submit", event => {
   let successAlertRecipe = document.querySelector("\#success-add-recipe");
   successAlertRecipe.classList.remove("hidden");
   setTimeout(() => successAlertRecipe.classList.add("hidden"), 1000);
-  event.preventDefault();
+
   renderCheckboxRecipes();
-  
+}
 
-})
+)
 
+newRecipeForm.addEventListener("submit", event => {
+
+});
 
 let checkboxList, clrecipeInput, clrecipeListName, counter=1, cpCounter=1, clLi, breakEl; 
 //Render recipe in add recipe to list 
@@ -626,6 +755,8 @@ function renderCheckboxRecipes() {
   commonpantryChecklist();
 }
   
+
+
 
 
 /* 

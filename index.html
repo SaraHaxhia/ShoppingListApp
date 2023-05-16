@@ -111,12 +111,16 @@
               </div>
               <!--NEW RECIPE TAB-->
               <div id="new-recipe-tab" class="tabcontent invisible">
+                <p> <i> Add new recipes, or edit old ones by writing their name. </i></p>
 
-
-                <form id="new-recipe-form" >
+                <form id="new-recipe-form" autocomplete="off">
                   <p> Name </p>
-                  
-                  <input type="text" id="recipeName" required class="form-control" >
+                  <div class="autocomplete">
+                  <input type="text" id="recipeName" required class="form-control"  >
+                  <ul id="recipe-autocomplete-list" class = "hidden">
+                    
+                  </ul>
+                </div>
                   <br><br>
                   <p>Ingredients</p>
                   <div id="ingredients-input-list">
@@ -173,11 +177,13 @@
 
             <div class="modal-footer">
               <div  id="success-add-recipe"class="alert alert-success hidden">
-                <strong>Added successfully!</strong> 
+                <strong>Save successful</strong> 
               </div>
               <button id="new-recipe-close" type="button" class="btn darkgreen" data-dismiss="modal">Close</button>
+              <button id="new-recipe-delete" type="button" class="btn darkred" >Delete</button>
               <button id="new-recipe-btn" type="submit" form="new-recipe-form" class="btn lightorange">Save changes</button>
             </div>
+            
           </div>
         </div>
       </div>

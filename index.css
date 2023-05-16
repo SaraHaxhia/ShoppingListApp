@@ -113,6 +113,7 @@ th {
 }
 
 
+
 /*ICON TOOLTIP - TO DO !!!!! */ 
 
 .tooltip1 {
@@ -326,8 +327,9 @@ tr.checked > td:first-child {
   width: 45%;
 }*/
 #success-add-recipe{
-  width:54%;
+  width:37%;
 }
+
 #success-add-checkbox-recipe {
   width:59%
 }
@@ -352,7 +354,7 @@ tr.checked > td:first-child {
   
 }
 
-#autocomplete-list {
+#autocomplete-list, #recipe-autocomplete-list  {
   text-align: left;
   position: absolute;
   border: 1px solid rgb(197, 192, 192);
@@ -391,15 +393,14 @@ tr.checked > td:first-child {
   background-color: white;
   /*cursor: pointer;*/
 }
-.newAutocompleteItem2:hover {
+ 
+
+.newAutocompleteItem2:hover, .newAutocompleteItem:hover, .newRecipeAutocompleteItem:hover{
   background-color: #C6D5C1;
   cursor: pointer;
 }
 
-.newAutocompleteItem:hover {
-  background-color: #C6D5C1;
-  cursor: pointer;
-}
+
 /*.autocomplete-list li:hover {
   background-color: #gray;
 }*/
@@ -489,6 +490,11 @@ tr.checked > td:first-child {
 
 .darkgreen {
   background-color: var(--dark-2)!important;
+  color: white!important;
+}
+
+.darkred { 
+  background-color: #8b0000 !important;
   color: white!important;
 }
 
