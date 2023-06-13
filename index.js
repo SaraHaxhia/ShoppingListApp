@@ -156,10 +156,6 @@ miscIcon.addEventListener("click", () => {
 
 //AUTO-FILL CATEGORIES ON MISC 
 
-//start by showing correct matches 
-//then let person select by clicking 
-//then let someone select with buttons and enter button (disable normal use)
-
 
 
 let objItemClean;
@@ -170,17 +166,16 @@ itemInput.addEventListener("keyup", event => {
   autocompleteList.classList.add("hidden");
   
   searchText=event.target.value.trim().toLowerCase(); 
-  //works with event.target, not event.currenttarget, look into... 
-  if(!searchText==""){
-    //let currentAutocompleteList = [];  //make sure you don't add same value to list twice
   
+  if(!searchText==""){
+    
     shoppingListDatabase.forEach(obj => {
       objItemClean = obj.item.trim().toLowerCase();
-      if (objItemClean.slice(0,searchText.length)==searchText ){ //&& !currentAutocompleteList.includes(objItemClean)
+      if (objItemClean.slice(0,searchText.length)==searchText ){ 
         newAutocompleteItem= document.createElement("li");
         newAutocompleteItem.classList.add("newAutocompleteItem");
         newAutocompleteItem.textContent=obj.item;
-        //currentAutocompleteList.push(objItemClean);
+        
         autocompleteList.appendChild(newAutocompleteItem);
       }
       
@@ -207,17 +202,17 @@ itemInput_.addEventListener("keyup", event => {
   autocompleteList2.classList.add("hidden");
   
   searchText=event.target.value.trim().toLowerCase(); 
-  //event.target, not event.currenttarget
+  
   if(!searchText==""){
-    //let currentAutocompleteList = [];  //make sure you don't add same value to list twice
+    
   
     shoppingListDatabase.forEach(obj => {
       let objItemClean = obj.item.trim().toLowerCase();
-      if (objItemClean.slice(0,searchText.length)==searchText ){ //&& !currentAutocompleteList.includes(objItemClean
+      if (objItemClean.slice(0,searchText.length)==searchText ){ 
         newAutocompleteItem= document.createElement("li");
         newAutocompleteItem.classList.add("newAutocompleteItem2");
         newAutocompleteItem.textContent=obj.item;
-        //currentAutocompleteList.push(objItemClean);
+        
         autocompleteList2.appendChild(newAutocompleteItem);
       }
       
@@ -273,7 +268,7 @@ function selectAutocomplete2() {
       
       
       
-      //MAKE COMMON PANTRY VALUE EQUAL TO WHAT IS IT IN DATABASE
+      
     })
   })
 }
@@ -344,7 +339,7 @@ deleteCheckedIcon.addEventListener("click", (event) => {
 //SORT LIST BUTTON
 
 function sortList(sortedCat) {
-  //These functions shouldnt change original array but they seem to do that?
+  
   liveShoppingList.map(el => {
     el.type = sortedCat.indexOf(el.type);
     
@@ -373,7 +368,7 @@ tabTitle.forEach(tabTitleEl => {
   tabTitleEl.addEventListener("click", event => {
     tabTitle.forEach(el => el.classList.remove("tabtitleactive"));
     event.currentTarget.classList.add("tabtitleactive");
-    //newRecipeBtn = document.querySelector("\#new-recipe-btn");
+    
     if(event.currentTarget.getAttribute("id")=="recipelibrarytitle"){
       recipeTab.classList.remove("invisible");
       newRecipeTab.classList.add("invisible");
@@ -397,8 +392,7 @@ tabTitle.forEach(tabTitleEl => {
 //Erase changes to add new recipe list
 
 function eraseNewRecipeList() {
-  //remove all child but one - the first row 
-  //and then set the values to ""
+  
   ingredientsInputRow = document.querySelector(".ingredients-input-row");
   ingredientsInputList = document.querySelector("\#ingredients-input-list");
       
@@ -465,18 +459,7 @@ function renderRecipeList() {
     //make invisible by default
     newNestedList.classList.add("invisible");
 
-    //add icon - when you add this back, make event.currentTarget.children[0].classList.toggle("invisible");
-    // into event.currentTarget.children[1].classList.toggle("invisible");
-    //change 0 to 1
-    /*
-    span = document.createElement("span"); 
-    span.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-  </svg>`; 
-  span.classList.add("trash-icon");
-  recipeListName.appendChild(span);*/
-
-  //add to html
+    
     recipeListName.appendChild(newNestedList);
     recipeList.appendChild(recipeListName); 
     
@@ -500,8 +483,7 @@ recipeListItems.forEach(recipeListItem => {
 }
 
 //PLUS BUTTON MAKES NEW INGREDIENTS INPUT ROW 
-//If I want to, I could give each input an id... using ${}
-//Need a delete row icon 
+
 
 function createNewRow() {
   ingredientsInputRow = document.querySelector(".ingredients-input-row");
@@ -527,7 +509,7 @@ let recipeNameBox = document.querySelector("\#recipeName");
 let recipeAutocompleteList = document.querySelector("\#recipe-autocomplete-list");
 let newRecipeAutocompleteItem; 
 recipeNameBox.addEventListener("keyup", event => {
-  //Not too sure why I'm doing this right now.. 
+  
   recipeAutocompleteList.innerHTML="";
   recipeAutocompleteList.classList.add("hidden"); 
   
@@ -550,8 +532,7 @@ recipeNameBox.addEventListener("keyup", event => {
     }
   }
   selectRecipeAutocomplete(); 
-// Need it to clear if you go back 
-//Need to fix formatting of the box.. 
+
 })
 
 function selectRecipeAutocomplete() {
@@ -584,7 +565,7 @@ function selectRecipeAutocomplete() {
         ingredientsInputList.lastChild.querySelector(".recipe-common-pantry-select").value = thisRecipeIngredientsList[i].CommonPantry ? "Common pantry item" : "-";
         
 
-        //console.log(ingredientsInputList.lastChild.querySelector(".recipe-ingredient-input").value);
+       
       }
       
       
@@ -631,7 +612,7 @@ newRecipeForm.addEventListener("submit", event => {
   listOfIngredients = []; 
 
 
-  //console.log(recipeDatabase);
+  
   if(recipeDatabase.find(el => el.Name.trim().toLowerCase() ==recipeName.trim().toLowerCase())!==undefined){
     
     const overwriteData = confirm("Warning: You are about to overwrite this recipe. This cannot be undone.");
@@ -744,8 +725,7 @@ function renderCheckboxRecipes() {
     
   }
 
-  //breakEl=document.createElement("br");
-  //cldiv.appendChild(breakEl);
+  
   checkboxList.appendChild(clLi);
   counter++; 
     
@@ -759,17 +739,7 @@ function renderCheckboxRecipes() {
 
 
 
-/* 
-function checkboxCreator(name, checkboxClass, labelFor, ){
-  let checklistInput = document.createElement("input");
-  checklistInput.setAttribute("type","checkbox");
-  checklistInput.setAttribute("name", name);
-  checklistInput.classList.add("checkbox");
 
-
-
-
-}*/
 
 //SELECTING RECIPES ADD TO SHOPPING LIST 
 
@@ -866,8 +836,7 @@ function commonpantryChecklist(){
 //RUN CODE.... 
 
 
-// FIX THIS FUNCTION!!! MAKE IT EASY TO ADD INGREDIENTS, QNTY and COMMON PANTRY 
-//MAKE SURE YOU CODE A COMMON PANTRY AUTOFILL... 
+
 
 renderRecipeList();
 renderCheckboxRecipes();
